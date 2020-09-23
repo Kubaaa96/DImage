@@ -10,10 +10,12 @@ find_package(Qt5 COMPONENTS Core Gui Widgets REQUIRED)
 add_executable(${PROJECT_NAME}
     # Headers
     src/gui/mainwindow.h
+    src/gui/imageviewer.h
     
     # Sources
     src/app/main.cpp
     src/gui/mainwindow.cpp
+    src/gui/imageviewer.cpp
 
     # Forms
     src/gui/mainwindow.ui
