@@ -16,10 +16,11 @@ public:
     ~MainWindow();
 
 public slots:
-    void printFromAction();
+    void openFile();
 
 private:
     Ui::MainWindow* ui;
+    class ImageViewer* imageViewer;
 };
 
 #endif // MAINWINDOW_H
