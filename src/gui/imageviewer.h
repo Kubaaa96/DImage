@@ -1,9 +1,11 @@
 #ifndef IMAGEVIEWER_H
 #define IMAGEVIEWER_H
 
+#include <QDebug>
 #include <QGraphicsPixmapItem>
 #include <QGraphicsView>
 #include <QPixmap>
+#include <QWheelEvent>
 #include <QWidget>
 
 namespace Ui {
@@ -17,6 +19,8 @@ public:
     explicit ImageViewer(QWidget* parent = nullptr);
     ~ImageViewer();
     void setPhoto(QImage image);
+    void wheelEvent(QWheelEvent* event) override;
+    bool hasPhoto();
 
 private:
     bool empty;

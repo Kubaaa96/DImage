@@ -31,3 +31,29 @@ void ImageViewer::setPhoto(QImage image)
     //printf(empty ? "true" : "false");
     fitInView(photo);
 }
+
+void ImageViewer::wheelEvent(QWheelEvent* event)
+{
+    if (hasPhoto()) {
+        float factor = 1;
+        if (event->angleDelta().y() > 0) {
+            factor = 1.25;
+            zoom += 1;
+        } else {
+            factor = 0.8;
+            zoom -= 1;
+        }
+        if (zoom > 0) {
+            scale(factor, factor);
+        } else if (zoom == 0) {
+            fitInView(photo);
+        } else {
+            zoom = 0;
+        }
+    }
+}
+
+bool ImageViewer::hasPhoto()
+{
+    return !empty;
+}
