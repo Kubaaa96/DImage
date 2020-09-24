@@ -30,6 +30,12 @@ private:
     class QLabel* testImage;
     class QPushButton* buttonImageViewHide;
     class QPushButton* buttonOptionsHide;
+
+    void creatingContainerForImages();
+    void creatingButtonToHideContainer();
+    void creatingButtonToHideOptions();
+    void settingUpMainLayout();
+    void connectingCommands();
 };
 
 #endif // MAINWINDOW_H

@@ -28,39 +28,11 @@ MainWindow::MainWindow(QWidget* parent)
     treeOptionWidget->addTopLevelItem(item);
     treeOptionWidget->setMaximumWidth(250);
 
-    buttonOptionsHide = new QPushButton();
-    buttonOptionsHide->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Preferred);
-    buttonOptionsHide->setMaximumWidth(30); // TODO Change Magic Numbers
-
-    containerWidgetImages = new QWidget();
-    verticalImagesLayout = new QVBoxLayout();
-    testImage = new QLabel();
-    testImage->setText("Test Before Image");
-    verticalImagesLayout->addWidget(testImage);
-    containerWidgetImages->setLayout(verticalImagesLayout);
-    containerWidgetImages->setMaximumWidth(250); // TODO Change Magic Numbers
-
-    buttonImageViewHide = new QPushButton();
-    buttonImageViewHide->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Preferred);
-    buttonImageViewHide->setMaximumWidth(30); // TODO Change Magic Numbers
-
-    auto layout = new QHBoxLayout;
-    layout->addWidget(containerWidgetImages);
-    layout->addWidget(buttonImageViewHide);
-    layout->addWidget(imageViewer);
-    layout->addWidget(buttonOptionsHide);
-    layout->addWidget(treeOptionWidget);
-    layout->setStretch(0, 2);
-    layout->setStretch(1, 1);
-    layout->setStretch(2, 5);
-    layout->setStretch(3, 1);
-    layout->setStretch(4, 2);
-
-    ui->centralwidget->setLayout(layout);
-
-    connect(ui->actionOpen_Image, &QAction::triggered, this, &MainWindow::openFile);
-    connect(buttonOptionsHide, &QPushButton::pressed, this, &MainWindow::hideOptionWidget);
-    connect(buttonImageViewHide, &QPushButton::pressed, this, &MainWindow::hideImageLayout);
+    creatingButtonToHideOptions();
+    creatingContainerForImages();
+    creatingButtonToHideContainer();
+    settingUpMainLayout();
+    connectingCommands();
 }
 
 MainWindow::~MainWindow()
@@ -91,6 +63,55 @@ void MainWindow::hideImageLayout()
     } else {
         containerWidgetImages->setHidden(true);
     }
+}
+
+void MainWindow::creatingContainerForImages()
+{
+    containerWidgetImages = new QWidget();
+    verticalImagesLayout = new QVBoxLayout();
+    testImage = new QLabel();
+    testImage->setText("Test Before Image");
+    verticalImagesLayout->addWidget(testImage);
+    containerWidgetImages->setLayout(verticalImagesLayout);
+    containerWidgetImages->setMaximumWidth(250); // TODO Change Magic Numbers
+}
+
+void MainWindow::creatingButtonToHideContainer()
+{
+    buttonImageViewHide = new QPushButton();
+    buttonImageViewHide->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Preferred);
+    buttonImageViewHide->setMaximumWidth(30); // TODO Change Magic Numbers
+}
+
+void MainWindow::creatingButtonToHideOptions()
+{
+    buttonOptionsHide = new QPushButton();
+    buttonOptionsHide->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Preferred);
+    buttonOptionsHide->setMaximumWidth(30); // TODO Change Magic Numbers
+}
+
+void MainWindow::settingUpMainLayout()
+{
+    auto layout = new QHBoxLayout;
+    layout->addWidget(containerWidgetImages);
+    layout->addWidget(buttonImageViewHide);
+    layout->addWidget(imageViewer);
+    layout->addWidget(buttonOptionsHide);
+    layout->addWidget(treeOptionWidget);
+    layout->setStretch(0, 2);
+    layout->setStretch(1, 1);
+    layout->setStretch(2, 5);
+    layout->setStretch(3, 1);
+    layout->setStretch(4, 2);
+
+    ui->centralwidget->setLayout(layout);
+}
+
+void MainWindow::connectingCommands()
+{
+    connect(ui->actionOpen_Image, &QAction::triggered, this, &MainWindow::openFile);
+    connect(buttonOptionsHide, &QPushButton::pressed, this, &MainWindow::hideOptionWidget);
+    connect(buttonImageViewHide, &QPushButton::pressed, this, &MainWindow::hideImageLayout);
 }
 
 void MainWindow::openFile()
