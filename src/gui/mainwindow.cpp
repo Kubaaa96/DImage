@@ -51,16 +51,20 @@ void MainWindow::hideOptionWidget()
 {
     if (treeOptionWidget->isHidden()) {
         treeOptionWidget->setHidden(false);
+        buttonOptionsHide->setIcon(QIcon(":/mainWindow/ArrowLeft.png"));
     } else {
         treeOptionWidget->setHidden(true);
+        buttonOptionsHide->setIcon(QIcon(":/mainWindow/arrowRight.png"));
     }
 }
 
 void MainWindow::hideImageLayout()
 {
     if (containerWidgetImages->isHidden()) {
+        buttonImageViewHide->setIcon(QIcon(":/mainWindow/arrowRight.png"));
         containerWidgetImages->setHidden(false);
     } else {
+        buttonImageViewHide->setIcon(QIcon(":/mainWindow/ArrowLeft.png"));
         containerWidgetImages->setHidden(true);
     }
 }
@@ -81,6 +85,7 @@ void MainWindow::creatingButtonToHideContainer()
     buttonImageViewHide = new QPushButton();
     buttonImageViewHide->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Preferred);
     buttonImageViewHide->setMaximumWidth(30); // TODO Change Magic Numbers
+    buttonImageViewHide->setIcon(QIcon(":/mainWindow/arrowRight.png"));
 }
 
 void MainWindow::creatingButtonToHideOptions()
@@ -88,6 +93,8 @@ void MainWindow::creatingButtonToHideOptions()
     buttonOptionsHide = new QPushButton();
     buttonOptionsHide->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Preferred);
     buttonOptionsHide->setMaximumWidth(30); // TODO Change Magic Numbers
+    //printf(icon.isNull() ? "true" : "false");
+    buttonOptionsHide->setIcon(QIcon(":/mainWindow/ArrowLeft.png"));
 }
 
 void MainWindow::settingUpMainLayout()

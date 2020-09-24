@@ -19,6 +19,9 @@ add_executable(${PROJECT_NAME}
 
     # Forms
     src/gui/mainwindow.ui
+
+    # Resources
+    src/icons/icons.qrc
     )
 
 target_link_libraries(${PROJECT_NAME} 
