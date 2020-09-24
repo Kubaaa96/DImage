@@ -17,10 +17,19 @@ public:
 
 public slots:
     void openFile();
+    void hideOptionWidget();
+    void hideImageLayout();
 
 private:
     Ui::MainWindow* ui;
     class ImageViewer* imageViewer;
+    class QTreeWidget* treeOptionWidget;
+    class QTreeWidgetItem* item;
+    class QWidget* containerWidgetImages;
+    class QVBoxLayout* verticalImagesLayout;
+    class QLabel* testImage;
+    class QPushButton* buttonImageViewHide;
+    class QPushButton* buttonOptionsHide;
 };
 
 #endif // MAINWINDOW_H

@@ -13,6 +13,7 @@ ImageViewer::ImageViewer(QWidget* parent)
 
 ImageViewer::~ImageViewer()
 {
+    delete photo;
 }
 
 void ImageViewer::setPhoto(QImage image)
@@ -37,10 +38,10 @@ void ImageViewer::wheelEvent(QWheelEvent* event)
     if (hasPhoto()) {
         float factor = 1;
         if (event->angleDelta().y() > 0) {
-            factor = 1.25;
+            factor = 1.25f;
             zoom += 1;
         } else {
-            factor = 0.8;
+            factor = 0.8f;
             zoom -= 1;
         }
         if (zoom > 0) {

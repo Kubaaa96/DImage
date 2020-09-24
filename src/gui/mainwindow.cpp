@@ -6,25 +6,91 @@
 #include <QFileDialog>
 #include <QHBoxLayout>
 #include <QImageReader>
+#include <QLabel>
 #include <QMessageBox>
 #include <QPushButton>
+#include <QTreeWidget>
+#include <QTreeWidgetItem>
+#include <QVBoxLayout>
 
 MainWindow::MainWindow(QWidget* parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+
     imageViewer = new ImageViewer();
-    QHBoxLayout* layout = new QHBoxLayout;
+
+    treeOptionWidget = new QTreeWidget();
+    item = new QTreeWidgetItem();
+    item->setCheckState(1, Qt::Unchecked);
+    item->setText(1, "Test");
+    treeOptionWidget->addTopLevelItem(item);
+    treeOptionWidget->setMaximumWidth(250);
+
+    buttonOptionsHide = new QPushButton();
+    buttonOptionsHide->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Preferred);
+    buttonOptionsHide->setMaximumWidth(30); // TODO Change Magic Numbers
+
+    containerWidgetImages = new QWidget();
+    verticalImagesLayout = new QVBoxLayout();
+    testImage = new QLabel();
+    testImage->setText("Test Before Image");
+    verticalImagesLayout->addWidget(testImage);
+    containerWidgetImages->setLayout(verticalImagesLayout);
+    containerWidgetImages->setMaximumWidth(250); // TODO Change Magic Numbers
+
+    buttonImageViewHide = new QPushButton();
+    buttonImageViewHide->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Preferred);
+    buttonImageViewHide->setMaximumWidth(30); // TODO Change Magic Numbers
+
+    auto layout = new QHBoxLayout;
+    layout->addWidget(containerWidgetImages);
+    layout->addWidget(buttonImageViewHide);
     layout->addWidget(imageViewer);
+    layout->addWidget(buttonOptionsHide);
+    layout->addWidget(treeOptionWidget);
+    layout->setStretch(0, 2);
+    layout->setStretch(1, 1);
+    layout->setStretch(2, 5);
+    layout->setStretch(3, 1);
+    layout->setStretch(4, 2);
+
     ui->centralwidget->setLayout(layout);
+
     connect(ui->actionOpen_Image, &QAction::triggered, this, &MainWindow::openFile);
-    //connect(ui->pushButton, &QPushButton::pressed, this, &MainWindow::printFromAction);
+    connect(buttonOptionsHide, &QPushButton::pressed, this, &MainWindow::hideOptionWidget);
+    connect(buttonImageViewHide, &QPushButton::pressed, this, &MainWindow::hideImageLayout);
 }
 
 MainWindow::~MainWindow()
 {
     delete ui;
+    delete imageViewer;
+    delete treeOptionWidget;
+    delete testImage;
+    delete containerWidgetImages;
+    delete verticalImagesLayout;
+    delete buttonImageViewHide;
+    delete buttonOptionsHide;
+}
+
+void MainWindow::hideOptionWidget()
+{
+    if (treeOptionWidget->isHidden()) {
+        treeOptionWidget->setHidden(false);
+    } else {
+        treeOptionWidget->setHidden(true);
+    }
+}
+
+void MainWindow::hideImageLayout()
+{
+    if (containerWidgetImages->isHidden()) {
+        containerWidgetImages->setHidden(false);
+    } else {
+        containerWidgetImages->setHidden(true);
+    }
 }
 
 void MainWindow::openFile()
