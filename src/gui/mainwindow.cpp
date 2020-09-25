@@ -1,6 +1,6 @@
 #include "mainwindow.h"
 #include "imagecontainer.h"
-#include "imageviewer.h"
+
 #include "ui_mainwindow.h"
 #include <QAction>
 #include <QDebug>
@@ -68,7 +68,7 @@ void MainWindow::hideImageLayout()
 
 void MainWindow::creatingContainerForImages()
 {
-    containerWidgetImages = new ImageContainer();
+    containerWidgetImages = new ImageContainer(imageViewer, nullptr);
     containerWidgetImages->setMaximumWidth(250); // TODO Change Magic Numbers
 }
 
@@ -126,6 +126,8 @@ void MainWindow::openFile()
                 .arg(QDir::toNativeSeparators(filePath), reader.errorString()));
         return;
     }
-    containerWidgetImages->addItem(new QListWidgetItem(QIcon(QPixmap::fromImage(loadedImage)), QFileInfo(filePath).fileName()));
+    // TODO Separate from Open Funciton
+    containerWidgetImages->addItemToContainer(loadedImage, QFileInfo(filePath).fileName());
+    //containerWidgetImages->addItem(new QListWidgetItem(QIcon(QPixmap::fromImage(loadedImage)), QFileInfo(filePath).fileName()));
     imageViewer->setPhoto(loadedImage);
 }

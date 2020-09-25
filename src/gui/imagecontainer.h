@@ -1,6 +1,7 @@
 #ifndef IMAGECONTAINER_H
 #define IMAGECONTAINER_H
 
+#include "imageviewer.h"
 #include <QListWidget>
 
 namespace Ui {
@@ -11,16 +12,21 @@ class ImageContainer : public QListWidget {
     Q_OBJECT
 
 public:
-    explicit ImageContainer(QWidget* parent = nullptr);
+    explicit ImageContainer(ImageViewer* imageViewer, QWidget* parent = nullptr);
+    //ImageContainer(ImageViewer* imageViewer, QWidget* parent);
     ~ImageContainer();
-    void addItemToContainer(const QIcon& icon, const QString& text);
+    // Should parameter be Const?
+    void addItemToContainer(QImage& image, QString name);
 
 public slots:
     void ShowContextMenu(const QPoint& pos);
     void action1();
+    void showCurrentlySelected();
 
 private:
     QPoint clickedPosition;
+    QVector<QImage>* vectorOfImages;
+    ImageViewer* instanceOfImageViewer;
 };
 
 #endif // IMAGECONTAINER_H
