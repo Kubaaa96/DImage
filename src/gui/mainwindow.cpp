@@ -1,4 +1,5 @@
 #include "mainwindow.h"
+#include "imagecontainer.h"
 #include "imageviewer.h"
 #include "ui_mainwindow.h"
 #include <QAction>
@@ -71,7 +72,7 @@ void MainWindow::hideImageLayout()
 
 void MainWindow::creatingContainerForImages()
 {
-    containerWidgetImages = new QWidget();
+    containerWidgetImages = new ImageContainer();
     verticalImagesLayout = new QVBoxLayout();
     testImage = new QLabel();
     testImage->setText("Test Before Image");

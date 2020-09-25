@@ -25,7 +25,7 @@ private:
     class ImageViewer* imageViewer;
     class QTreeWidget* treeOptionWidget;
     class QTreeWidgetItem* item;
-    class QWidget* containerWidgetImages;
+    class ImageContainer* containerWidgetImages;
     class QVBoxLayout* verticalImagesLayout;
     class QLabel* testImage;
     class QPushButton* buttonImageViewHide;

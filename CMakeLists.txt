@@ -11,11 +11,13 @@ add_executable(${PROJECT_NAME}
     # Headers
     src/gui/mainwindow.h
     src/gui/imageviewer.h
+    src/gui/imagecontainer.h
     
     # Sources
     src/app/main.cpp
     src/gui/mainwindow.cpp
     src/gui/imageviewer.cpp
+    src/gui/imagecontainer.cpp
 
     # Forms
     src/gui/mainwindow.ui
