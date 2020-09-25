@@ -7,12 +7,10 @@
 #include <QFileDialog>
 #include <QHBoxLayout>
 #include <QImageReader>
-#include <QLabel>
 #include <QMessageBox>
 #include <QPushButton>
 #include <QTreeWidget>
 #include <QTreeWidgetItem>
-#include <QVBoxLayout>
 
 MainWindow::MainWindow(QWidget* parent)
     : QMainWindow(parent)
@@ -41,9 +39,7 @@ MainWindow::~MainWindow()
     delete ui;
     delete imageViewer;
     delete treeOptionWidget;
-    delete testImage;
     delete containerWidgetImages;
-    delete verticalImagesLayout;
     delete buttonImageViewHide;
     delete buttonOptionsHide;
 }
@@ -73,11 +69,6 @@ void MainWindow::hideImageLayout()
 void MainWindow::creatingContainerForImages()
 {
     containerWidgetImages = new ImageContainer();
-    verticalImagesLayout = new QVBoxLayout();
-    testImage = new QLabel();
-    testImage->setText("Test Before Image");
-    verticalImagesLayout->addWidget(testImage);
-    containerWidgetImages->setLayout(verticalImagesLayout);
     containerWidgetImages->setMaximumWidth(250); // TODO Change Magic Numbers
 }
 
@@ -124,16 +115,17 @@ void MainWindow::connectingCommands()
 
 void MainWindow::openFile()
 {
-    QString fileName = QFileDialog::getOpenFileName(this,
+    QString filePath = QFileDialog::getOpenFileName(this,
         tr("Open Image"), "D:", tr("Image Files (*.png *.jpg *.bmp)"));
-    QImageReader reader(fileName);
+    QImageReader reader(filePath);
     reader.setAutoTransform(true);
-    const QImage newImage = reader.read();
-    if (newImage.isNull()) {
+    loadedImage = reader.read();
+    if (loadedImage.isNull()) {
         QMessageBox::information(this, QGuiApplication::applicationDisplayName(),
             tr("Cannot load %1: %2")
-                .arg(QDir::toNativeSeparators(fileName), reader.errorString()));
+                .arg(QDir::toNativeSeparators(filePath), reader.errorString()));
         return;
     }
-    imageViewer->setPhoto(newImage);
+    containerWidgetImages->addItem(new QListWidgetItem(QIcon(QPixmap::fromImage(loadedImage)), QFileInfo(filePath).fileName()));
+    imageViewer->setPhoto(loadedImage);
 }

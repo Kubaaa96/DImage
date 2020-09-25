@@ -26,10 +26,9 @@ private:
     class QTreeWidget* treeOptionWidget;
     class QTreeWidgetItem* item;
     class ImageContainer* containerWidgetImages;
-    class QVBoxLayout* verticalImagesLayout;
-    class QLabel* testImage;
     class QPushButton* buttonImageViewHide;
     class QPushButton* buttonOptionsHide;
+    class QImage loadedImage;
 
     void creatingContainerForImages();
     void creatingButtonToHideContainer();
