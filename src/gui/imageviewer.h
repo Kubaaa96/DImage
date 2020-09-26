@@ -21,6 +21,7 @@ public:
     void setPhoto(QImage image);
     void wheelEvent(QWheelEvent* event) override;
     bool hasPhoto();
+    void removeCurrentPhoto();
     QImage getPhoto();
 
 private:
@@ -28,6 +29,8 @@ private:
     QGraphicsPixmapItem* photo;
     QGraphicsScene* scene;
     float zoom;
+
+    void clearPhoto();
 };
 
 #endif // IMAGEVIEWER_H

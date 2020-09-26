@@ -61,6 +61,20 @@ void ImageContainer::saveSelectedFile()
     }
 }
 
+void ImageContainer::deleteImage()
+{
+
+    // Show approval Dialog
+    if (this->count() > 0 && QMessageBox::Yes == QMessageBox::warning(this, tr("Deleting %1").arg(this->itemAt(clickedPosition)->text()), "Are you sure you want to Delete this Image", QMessageBox::Yes | QMessageBox::No)) {
+        int indexOfClickedItem = this->row(this->itemAt(clickedPosition));
+
+        // TODO Break when deleted item is last one in QListWidget
+        // TODO WORKINg only when deleting LAST item With higher Row value
+        vectorOfImages->removeAt(indexOfClickedItem);
+        delete this->item(indexOfClickedItem);
+    }
+}
+
 void ImageContainer::showCurrentlySelected()
 {
     //qInfo() << vectorOfImages->isEmpty() ;
@@ -74,9 +88,15 @@ void ImageContainer::ShowContextMenu(const QPoint& pos)
     QMenu contextMenu("Context menu", this);
     QAction action1("Text1", this);
     QAction saveSelectedFile("Save As", this);
+    QAction deleteImage("Delete", this);
+
     connect(&action1, &QAction::triggered, this, &ImageContainer::action1);
     connect(&saveSelectedFile, &QAction::triggered, this, &ImageContainer::saveSelectedFile);
+    connect(&deleteImage, &QAction::triggered, this, &ImageContainer::deleteImage);
+
     contextMenu.addAction(&action1);
     contextMenu.addAction(&saveSelectedFile);
+    contextMenu.addAction(&deleteImage);
+
     contextMenu.exec(mapToGlobal(pos));
 }

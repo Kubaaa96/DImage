@@ -3,8 +3,7 @@
 ImageViewer::ImageViewer(QWidget* parent)
     : QGraphicsView(parent)
 {
-    empty = true;
-    photo = new QGraphicsPixmapItem();
+    clearPhoto();
     scene = new QGraphicsScene(this);
     scene->addItem(photo);
     this->setScene(scene);
@@ -59,7 +58,18 @@ bool ImageViewer::hasPhoto()
     return !empty;
 }
 
+void ImageViewer::removeCurrentPhoto()
+{
+    clearPhoto();
+}
+
 QImage ImageViewer::getPhoto()
 {
     return photo->pixmap().toImage();
+}
+
+void ImageViewer::clearPhoto()
+{
+    empty = true;
+    photo = new QGraphicsPixmapItem();
 }

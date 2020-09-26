@@ -23,6 +23,7 @@ public slots:
     void action1();
     void showCurrentlySelected();
     void saveSelectedFile();
+    void deleteImage();
 
 private:
     QPoint clickedPosition;
