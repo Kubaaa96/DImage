@@ -17,6 +17,7 @@ public:
 
 public slots:
     void openFile();
+    void saveFile();
     void hideOptionWidget();
     void hideImageLayout();
 

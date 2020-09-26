@@ -7,6 +7,7 @@
 #include <QFileDialog>
 #include <QHBoxLayout>
 #include <QImageReader>
+#include <QImageWriter>
 #include <QMessageBox>
 #include <QPushButton>
 #include <QTreeWidget>
@@ -109,6 +110,7 @@ void MainWindow::settingUpMainLayout()
 void MainWindow::connectingCommands()
 {
     connect(ui->actionOpen_Image, &QAction::triggered, this, &MainWindow::openFile);
+    connect(ui->actionSave_asImage, &QAction::triggered, this, &MainWindow::saveFile);
     connect(buttonOptionsHide, &QPushButton::pressed, this, &MainWindow::hideOptionWidget);
     connect(buttonImageViewHide, &QPushButton::pressed, this, &MainWindow::hideImageLayout);
 }
@@ -130,4 +132,18 @@ void MainWindow::openFile()
     containerWidgetImages->addItemToContainer(loadedImage, QFileInfo(filePath).fileName());
     //containerWidgetImages->addItem(new QListWidgetItem(QIcon(QPixmap::fromImage(loadedImage)), QFileInfo(filePath).fileName()));
     imageViewer->setPhoto(loadedImage);
+}
+
+void MainWindow::saveFile()
+{
+    // Think about Global utility function
+    QString fileName = QFileDialog::getSaveFileName(this, tr("SaveFile"), "D:", tr("Image Files (*.png *.jpg *.bmp)"));
+    QImageWriter writer(fileName);
+    if (!writer.write(imageViewer->getPhoto())) {
+        QMessageBox::information(this, QGuiApplication::applicationDisplayName(),
+            tr("Cannot write %1: %2")
+                .arg(QDir::toNativeSeparators(fileName)),
+            writer.errorString());
+        return;
+    }
 }

@@ -58,3 +58,8 @@ bool ImageViewer::hasPhoto()
 {
     return !empty;
 }
+
+QImage ImageViewer::getPhoto()
+{
+    return photo->pixmap().toImage();
+}

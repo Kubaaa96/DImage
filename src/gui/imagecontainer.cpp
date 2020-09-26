@@ -52,7 +52,6 @@ void ImageContainer::saveSelectedFile()
 {
     QString fileName = QFileDialog::getSaveFileName(this, tr("SaveFile"), "D:", tr("Image Files (*.png *.jpg *.bmp)"));
     QImageWriter writer(fileName);
-    qInfo() << this->row(this->itemAt(clickedPosition));
     if (!writer.write(vectorOfImages->at(this->row(this->itemAt(clickedPosition))))) {
         QMessageBox::information(this, QGuiApplication::applicationDisplayName(),
             tr("Cannot write %1: %2")

@@ -21,6 +21,7 @@ public:
     void setPhoto(QImage image);
     void wheelEvent(QWheelEvent* event) override;
     bool hasPhoto();
+    QImage getPhoto();
 
 private:
     bool empty;
