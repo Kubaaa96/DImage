@@ -3,8 +3,13 @@
 
 #include <QAction>
 #include <QDebug>
+#include <QDir>
+#include <QFileDialog>
+#include <QGuiApplication>
 #include <QImage>
+#include <QImageWriter>
 #include <QMenu>
+#include <QMessageBox>
 #include <QPoint>
 #include <QVector>
 
@@ -43,6 +48,20 @@ void ImageContainer::action1()
     }
 }
 
+void ImageContainer::saveSelectedFile()
+{
+    QString fileName = QFileDialog::getSaveFileName(this, tr("SaveFile"), "D:", tr("Image Files (*.png *.jpg *.bmp)"));
+    QImageWriter writer(fileName);
+    qInfo() << this->row(this->itemAt(clickedPosition));
+    if (!writer.write(vectorOfImages->at(this->row(this->itemAt(clickedPosition))))) {
+        QMessageBox::information(this, QGuiApplication::applicationDisplayName(),
+            tr("Cannot write %1: %2")
+                .arg(QDir::toNativeSeparators(fileName)),
+            writer.errorString());
+        return;
+    }
+}
+
 void ImageContainer::showCurrentlySelected()
 {
     //qInfo() << vectorOfImages->isEmpty() ;
@@ -55,7 +74,10 @@ void ImageContainer::ShowContextMenu(const QPoint& pos)
     clickedPosition = pos;
     QMenu contextMenu("Context menu", this);
     QAction action1("Text1", this);
+    QAction saveSelectedFile("Save As", this);
     connect(&action1, &QAction::triggered, this, &ImageContainer::action1);
+    connect(&saveSelectedFile, &QAction::triggered, this, &ImageContainer::saveSelectedFile);
     contextMenu.addAction(&action1);
+    contextMenu.addAction(&saveSelectedFile);
     contextMenu.exec(mapToGlobal(pos));
 }

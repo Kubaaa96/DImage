@@ -22,6 +22,7 @@ public slots:
     void ShowContextMenu(const QPoint& pos);
     void action1();
     void showCurrentlySelected();
+    void saveSelectedFile();
 
 private:
     QPoint clickedPosition;
