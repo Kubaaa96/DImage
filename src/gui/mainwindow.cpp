@@ -111,6 +111,7 @@ void MainWindow::connectingCommands()
 {
     connect(ui->actionOpen_Image, &QAction::triggered, this, &MainWindow::openFile);
     connect(ui->actionSave_asImage, &QAction::triggered, this, &MainWindow::saveFile);
+    connect(ui->actionExit, &QAction::triggered, this, &MainWindow::close);
     connect(buttonOptionsHide, &QPushButton::pressed, this, &MainWindow::hideOptionWidget);
     connect(buttonImageViewHide, &QPushButton::pressed, this, &MainWindow::hideImageLayout);
 }
