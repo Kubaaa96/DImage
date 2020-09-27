@@ -79,6 +79,11 @@ void ImageContainer::deleteImage()
     }
 }
 
+void ImageContainer::showImageInformation()
+{
+    qInfo() << "Info about image";
+}
+
 void ImageContainer::showCurrentlySelected()
 {
     //qInfo() << vectorOfImages->isEmpty() ;
@@ -93,14 +98,17 @@ void ImageContainer::ShowContextMenu(const QPoint& pos)
     QAction action1("Text1", this);
     QAction saveSelectedFile("Save As", this);
     QAction deleteImage("Delete", this);
+    QAction informationAboutImage("Info", this);
 
     connect(&action1, &QAction::triggered, this, &ImageContainer::action1);
     connect(&saveSelectedFile, &QAction::triggered, this, &ImageContainer::saveSelectedFile);
     connect(&deleteImage, &QAction::triggered, this, &ImageContainer::deleteImage);
+    connect(&informationAboutImage, &QAction::triggered, this, &ImageContainer::showImageInformation);
 
     contextMenu.addAction(&action1);
     contextMenu.addAction(&saveSelectedFile);
     contextMenu.addAction(&deleteImage);
+    contextMenu.addAction(&informationAboutImage);
 
     contextMenu.exec(mapToGlobal(pos));
 }
