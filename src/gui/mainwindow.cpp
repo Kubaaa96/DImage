@@ -118,21 +118,27 @@ void MainWindow::connectingCommands()
 
 void MainWindow::openFile()
 {
-    QString filePath = QFileDialog::getOpenFileName(this,
+    bool isFirstImageSetup = false;
+    QStringList filePaths = QFileDialog::getOpenFileNames(this,
         tr("Open Image"), "D:", tr("Image Files (*.png *.jpg *.bmp)"));
-    QImageReader reader(filePath);
-    reader.setAutoTransform(true);
-    loadedImage = reader.read();
-    if (loadedImage.isNull()) {
-        QMessageBox::information(this, QGuiApplication::applicationDisplayName(),
-            tr("Cannot load %1: %2")
-                .arg(QDir::toNativeSeparators(filePath), reader.errorString()));
-        return;
+    for (QString filePath : filePaths) {
+        QImageReader reader(filePath);
+        reader.setAutoTransform(true);
+        loadedImage = reader.read();
+        if (loadedImage.isNull()) {
+            QMessageBox::information(this, QGuiApplication::applicationDisplayName(),
+                tr("Cannot load %1: %2")
+                    .arg(QDir::toNativeSeparators(filePath), reader.errorString()));
+            return;
+        }
+        // TODO Separate from Open Funciton
+        containerWidgetImages->addItemToContainer(loadedImage, QFileInfo(filePath).fileName());
+        if (!isFirstImageSetup) {
+            imageViewer->setPhoto(loadedImage);
+        }
     }
-    // TODO Separate from Open Funciton
-    containerWidgetImages->addItemToContainer(loadedImage, QFileInfo(filePath).fileName());
+
     //containerWidgetImages->addItem(new QListWidgetItem(QIcon(QPixmap::fromImage(loadedImage)), QFileInfo(filePath).fileName()));
-    imageViewer->setPhoto(loadedImage);
 }
 
 void MainWindow::saveFile()
