@@ -58,11 +58,6 @@ bool ImageViewer::hasPhoto()
     return !empty;
 }
 
-void ImageViewer::removeCurrentPhoto()
-{
-    clearPhoto();
-}
-
 QImage ImageViewer::getPhoto()
 {
     return photo->pixmap().toImage();

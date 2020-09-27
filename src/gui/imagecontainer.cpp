@@ -8,6 +8,7 @@
 #include <QGuiApplication>
 #include <QImage>
 #include <QImageWriter>
+#include <QListWidgetItem>
 #include <QMenu>
 #include <QMessageBox>
 #include <QPoint>
@@ -27,7 +28,7 @@ ImageContainer::ImageContainer(ImageViewer* imageViewer, QWidget* parent)
 
     //connect(this, SIGNAL(customContextMenuRequested(const QPoint&)), this, SLOT(ShowContextMenu(const QPoint&)));
     connect(this, &QListWidget::customContextMenuRequested, this, &ImageContainer::ShowContextMenu);
-    connect(this, &QListWidget::itemSelectionChanged, this, &ImageContainer::showCurrentlySelected);
+    connect(this, &QListWidget::itemClicked, this, &ImageContainer::showCurrentlySelected);
 }
 
 ImageContainer::~ImageContainer()
@@ -63,15 +64,18 @@ void ImageContainer::saveSelectedFile()
 
 void ImageContainer::deleteImage()
 {
+    if (this->count() > 0 && this != nullptr && QMessageBox::Yes == QMessageBox::warning(this, tr("Deleting %1").arg(this->itemAt(clickedPosition)->text()), "Are you sure you want to Delete this Image", QMessageBox::Yes | QMessageBox::No)) {
 
-    // Show approval Dialog
-    if (this->count() > 0 && QMessageBox::Yes == QMessageBox::warning(this, tr("Deleting %1").arg(this->itemAt(clickedPosition)->text()), "Are you sure you want to Delete this Image", QMessageBox::Yes | QMessageBox::No)) {
         int indexOfClickedItem = this->row(this->itemAt(clickedPosition));
 
-        // TODO Break when deleted item is last one in QListWidget
-        // TODO WORKINg only when deleting LAST item With higher Row value
         vectorOfImages->removeAt(indexOfClickedItem);
-        delete this->item(indexOfClickedItem);
+        QListWidgetItem* itemToDelete = this->takeItem(indexOfClickedItem);
+        delete itemToDelete;
+        if (indexOfClickedItem > 0) {
+            instanceOfImageViewer->setPhoto(vectorOfImages->at(indexOfClickedItem - 1));
+        } else {
+            instanceOfImageViewer->setPhoto(QImage());
+        }
     }
 }
 
