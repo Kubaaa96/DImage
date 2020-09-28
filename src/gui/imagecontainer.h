@@ -30,6 +30,7 @@ private:
     QPoint clickedPosition;
     QVector<QImage>* vectorOfImages;
     ImageViewer* instanceOfImageViewer;
+    QWidget* informationWindow;
 };
 
 #endif // IMAGECONTAINER_H

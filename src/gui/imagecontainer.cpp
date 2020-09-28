@@ -82,6 +82,9 @@ void ImageContainer::deleteImage()
 void ImageContainer::showImageInformation()
 {
     qInfo() << "Info about image";
+    informationWindow = new QWidget();
+    informationWindow->show();
+    informationWindow->setWindowTitle(tr("Information about image %1").arg(this->itemAt(clickedPosition)->text()));
 }
 
 void ImageContainer::showCurrentlySelected()
