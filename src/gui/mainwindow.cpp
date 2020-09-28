@@ -132,7 +132,7 @@ void MainWindow::openFile()
             return;
         }
         // TODO Separate from Open Funciton
-        containerWidgetImages->addItemToContainer(loadedImage, QFileInfo(filePath).fileName());
+        containerWidgetImages->addItemToContainer(loadedImage, filePath);
         if (!isFirstImageSetup) {
             imageViewer->setPhoto(loadedImage);
         }

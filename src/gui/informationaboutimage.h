@@ -4,19 +4,20 @@
 #include <QWidget>
 
 namespace Ui {
-  class InformationAboutImage;
+class InformationAboutImage;
 }
 
-class InformationAboutImage : public QWidget
-{
-  Q_OBJECT
+class InformationAboutImage : public QWidget {
+    Q_OBJECT
 
 public:
-  explicit InformationAboutImage(QWidget *parent = nullptr);
-  ~InformationAboutImage();
+    explicit InformationAboutImage(const QImage& image, const QString path, QWidget* parent = nullptr);
+    ~InformationAboutImage();
 
 private:
-  Ui::InformationAboutImage *ui;
+    Ui::InformationAboutImage* ui;
+    QImage image;
+    QString path;
 };
 
 #endif // INFORMATIONABOUTIMAGE_H

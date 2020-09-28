@@ -26,6 +26,7 @@ ImageContainer::ImageContainer(ImageViewer* imageViewer, QWidget* parent)
     this->setContextMenuPolicy(Qt::CustomContextMenu);
 
     vectorOfImages = new QVector<QImage>;
+    vectorOfImagePaths = new QVector<QString>;
 
     //connect(this, SIGNAL(customContextMenuRequested(const QPoint&)), this, SLOT(ShowContextMenu(const QPoint&)));
     connect(this, &QListWidget::customContextMenuRequested, this, &ImageContainer::ShowContextMenu);
@@ -35,13 +36,15 @@ ImageContainer::ImageContainer(ImageViewer* imageViewer, QWidget* parent)
 ImageContainer::~ImageContainer()
 {
     delete vectorOfImages;
+    delete vectorOfImagePaths;
     delete informationWindow;
 }
 
-void ImageContainer::addItemToContainer(QImage& image, QString name)
+void ImageContainer::addItemToContainer(QImage& image, QString filePath)
 {
     vectorOfImages->append(image);
-    this->addItem(new QListWidgetItem(QIcon(QPixmap::fromImage(image)), name));
+    vectorOfImagePaths->append(filePath);
+    this->addItem(new QListWidgetItem(QIcon(QPixmap::fromImage(image)), QFileInfo(filePath).fileName()));
 }
 
 void ImageContainer::saveSelectedFile()
@@ -76,7 +79,8 @@ void ImageContainer::deleteImage()
 
 void ImageContainer::showImageInformation()
 {
-    informationWindow = new InformationAboutImage();
+    int indexOfClickedItem = this->row(this->itemAt(clickedPosition));
+    informationWindow = new InformationAboutImage(vectorOfImages->at(indexOfClickedItem), vectorOfImagePaths->at(indexOfClickedItem));
     informationWindow->show();
     informationWindow->setAttribute(Qt::WA_QuitOnClose, false);
     informationWindow->setWindowTitle(tr("Information about image: %1").arg(this->itemAt(clickedPosition)->text()));

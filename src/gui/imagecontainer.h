@@ -16,7 +16,7 @@ public:
     //ImageContainer(ImageViewer* imageViewer, QWidget* parent);
     ~ImageContainer();
     // Should parameter be Const?
-    void addItemToContainer(QImage& image, QString name);
+    void addItemToContainer(QImage& image, QString filePath);
 
 public slots:
     void ShowContextMenu(const QPoint& pos);
@@ -28,6 +28,7 @@ public slots:
 private:
     QPoint clickedPosition;
     QVector<QImage>* vectorOfImages;
+    QVector<QString>* vectorOfImagePaths;
     ImageViewer* instanceOfImageViewer;
     class InformationAboutImage* informationWindow;
 };
