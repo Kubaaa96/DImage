@@ -37,7 +37,6 @@ ImageContainer::~ImageContainer()
 {
     delete vectorOfImages;
     delete vectorOfImagePaths;
-    delete informationWindow;
 }
 
 void ImageContainer::addItemToContainer(QImage& image, QString filePath)

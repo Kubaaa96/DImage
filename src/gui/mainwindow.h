@@ -20,12 +20,14 @@ public slots:
     void saveFile();
     void hideOptionWidget();
     void hideImageLayout();
+    void about();
 
 private:
     Ui::MainWindow* ui;
     class ImageViewer* imageViewer;
     class QTreeWidget* treeOptionWidget;
     class QTreeWidgetItem* item;
+    class AboutWidget* aboutWidget;
     class ImageContainer* containerWidgetImages;
     class QPushButton* buttonImageViewHide;
     class QPushButton* buttonOptionsHide;

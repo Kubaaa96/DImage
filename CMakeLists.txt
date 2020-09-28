@@ -13,17 +13,21 @@ add_executable(${PROJECT_NAME}
     src/gui/imageviewer.h
     src/gui/imagecontainer.h
     src/gui/informationaboutimage.h
+    src/gui/aboutwidget.h
     
     # Sources
     src/app/main.cpp
+
     src/gui/mainwindow.cpp
     src/gui/imageviewer.cpp
     src/gui/imagecontainer.cpp
     src/gui/informationaboutimage.cpp
+    src/gui/aboutwidget.cpp
 
     # Forms
     src/gui/mainwindow.ui
     src/gui/informationaboutimage.ui
+    src/gui/aboutwidget.ui
 
     # Resources
     src/icons/icons.qrc

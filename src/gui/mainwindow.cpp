@@ -1,4 +1,5 @@
 #include "mainwindow.h"
+#include "aboutwidget.h"
 #include "imagecontainer.h"
 
 #include "ui_mainwindow.h"
@@ -67,6 +68,13 @@ void MainWindow::hideImageLayout()
     }
 }
 
+void MainWindow::about()
+{
+    aboutWidget = new AboutWidget();
+    aboutWidget->show();
+    aboutWidget->setAttribute(Qt::WA_QuitOnClose, false);
+}
+
 void MainWindow::creatingContainerForImages()
 {
     containerWidgetImages = new ImageContainer(imageViewer, nullptr);
@@ -112,6 +120,7 @@ void MainWindow::connectingCommands()
     connect(ui->actionOpen_Image, &QAction::triggered, this, &MainWindow::openFile);
     connect(ui->actionSave_asImage, &QAction::triggered, this, &MainWindow::saveFile);
     connect(ui->actionExit, &QAction::triggered, this, &MainWindow::close);
+    connect(ui->actionAbout, &QAction::triggered, this, &MainWindow::about);
     connect(buttonOptionsHide, &QPushButton::pressed, this, &MainWindow::hideOptionWidget);
     connect(buttonImageViewHide, &QPushButton::pressed, this, &MainWindow::hideImageLayout);
 }
