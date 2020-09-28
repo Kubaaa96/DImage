@@ -20,8 +20,7 @@ public:
 
 public slots:
     void ShowContextMenu(const QPoint& pos);
-    void action1();
-    void showCurrentlySelected();
+    void settingPhotoToMainImageViewer();
     void saveSelectedFile();
     void deleteImage();
     void showImageInformation();
@@ -30,7 +29,7 @@ private:
     QPoint clickedPosition;
     QVector<QImage>* vectorOfImages;
     ImageViewer* instanceOfImageViewer;
-    QWidget* informationWindow;
+    class InformationAboutImage* informationWindow;
 };
 
 #endif // IMAGECONTAINER_H

@@ -1,5 +1,6 @@
 #include "imagecontainer.h"
 #include "imageviewer.h"
+#include "informationaboutimage.h"
 
 #include <QAction>
 #include <QDebug>
@@ -28,25 +29,19 @@ ImageContainer::ImageContainer(ImageViewer* imageViewer, QWidget* parent)
 
     //connect(this, SIGNAL(customContextMenuRequested(const QPoint&)), this, SLOT(ShowContextMenu(const QPoint&)));
     connect(this, &QListWidget::customContextMenuRequested, this, &ImageContainer::ShowContextMenu);
-    connect(this, &QListWidget::itemClicked, this, &ImageContainer::showCurrentlySelected);
+    connect(this, &QListWidget::itemClicked, this, &ImageContainer::settingPhotoToMainImageViewer);
 }
 
 ImageContainer::~ImageContainer()
 {
+    delete vectorOfImages;
+    delete informationWindow;
 }
 
 void ImageContainer::addItemToContainer(QImage& image, QString name)
 {
     vectorOfImages->append(image);
     this->addItem(new QListWidgetItem(QIcon(QPixmap::fromImage(image)), name));
-}
-
-void ImageContainer::action1()
-{
-    QListWidgetItem* clickedItem = this->itemAt(clickedPosition);
-    if (clickedItem) {
-        qInfo() << clickedItem->text();
-    }
 }
 
 void ImageContainer::saveSelectedFile()
@@ -81,13 +76,13 @@ void ImageContainer::deleteImage()
 
 void ImageContainer::showImageInformation()
 {
-    qInfo() << "Info about image";
-    informationWindow = new QWidget();
+    informationWindow = new InformationAboutImage();
     informationWindow->show();
-    informationWindow->setWindowTitle(tr("Information about image %1").arg(this->itemAt(clickedPosition)->text()));
+    informationWindow->setAttribute(Qt::WA_QuitOnClose, false);
+    informationWindow->setWindowTitle(tr("Information about image: %1").arg(this->itemAt(clickedPosition)->text()));
 }
 
-void ImageContainer::showCurrentlySelected()
+void ImageContainer::settingPhotoToMainImageViewer()
 {
     //qInfo() << vectorOfImages->isEmpty() ;
     //printf(vectorOfImages->isEmpty() ? "true" : "false");
@@ -98,17 +93,14 @@ void ImageContainer::ShowContextMenu(const QPoint& pos)
 {
     clickedPosition = pos;
     QMenu contextMenu("Context menu", this);
-    QAction action1("Text1", this);
     QAction saveSelectedFile("Save As", this);
     QAction deleteImage("Delete", this);
     QAction informationAboutImage("Info", this);
 
-    connect(&action1, &QAction::triggered, this, &ImageContainer::action1);
     connect(&saveSelectedFile, &QAction::triggered, this, &ImageContainer::saveSelectedFile);
     connect(&deleteImage, &QAction::triggered, this, &ImageContainer::deleteImage);
     connect(&informationAboutImage, &QAction::triggered, this, &ImageContainer::showImageInformation);
 
-    contextMenu.addAction(&action1);
     contextMenu.addAction(&saveSelectedFile);
     contextMenu.addAction(&deleteImage);
     contextMenu.addAction(&informationAboutImage);
