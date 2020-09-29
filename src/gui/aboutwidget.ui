@@ -13,27 +13,39 @@
   <property name="windowTitle">
    <string>About</string>
   </property>
-  <widget class="QLabel" name="label">
-   <property name="geometry">
-    <rect>
-     <x>140</x>
-     <y>100</y>
-     <width>131</width>
-     <height>91</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <pointsize>13</pointsize>
-    </font>
-   </property>
-   <property name="text">
-    <string>ABOUT</string>
-   </property>
-   <property name="alignment">
-    <set>Qt::AlignCenter</set>
-   </property>
-  </widget>
+  <layout class="QVBoxLayout" name="verticalLayout" stretch="1,3">
+   <item>
+    <widget class="QLabel" name="labelDImage">
+     <property name="font">
+      <font>
+       <pointsize>13</pointsize>
+      </font>
+     </property>
+     <property name="text">
+      <string>DImage Icon ?</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QLabel" name="labelInformation">
+     <property name="text">
+      <string>Small app made by Jakub Dobrowolski. Main objective is to freely open and scroll through loaded images. Additional objective is to perform some operation on this image like Open CV edge detection or more advanced Computer vision operation based on Deep Learning. Source Code can be seen  &lt;a href=&quot;https://github.com/Kubaaa96/DImage/&quot;&gt;Github repository&lt;/a&gt;</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+     <property name="wordWrap">
+      <bool>true</bool>
+     </property>
+     <property name="openExternalLinks">
+      <bool>true</bool>
+     </property>
+    </widget>
+   </item>
+  </layout>
  </widget>
  <resources/>
  <connections/>
