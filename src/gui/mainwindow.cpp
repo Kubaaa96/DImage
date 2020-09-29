@@ -1,6 +1,7 @@
 #include "mainwindow.h"
 #include "aboutwidget.h"
 #include "imagecontainer.h"
+#include "optionwidget.h"
 
 #include "ui_mainwindow.h"
 #include <QAction>
@@ -11,8 +12,6 @@
 #include <QImageWriter>
 #include <QMessageBox>
 #include <QPushButton>
-#include <QTreeWidget>
-#include <QTreeWidgetItem>
 
 MainWindow::MainWindow(QWidget* parent)
     : QMainWindow(parent)
@@ -22,12 +21,8 @@ MainWindow::MainWindow(QWidget* parent)
 
     imageViewer = new ImageViewer();
 
-    treeOptionWidget = new QTreeWidget();
-    item = new QTreeWidgetItem();
-    item->setCheckState(1, Qt::Unchecked);
-    item->setText(1, "Test");
-    treeOptionWidget->addTopLevelItem(item);
-    treeOptionWidget->setMaximumWidth(250);
+    optionWidget = new OptionWidget();
+    optionWidget->setMaximumWidth(250);
 
     creatingButtonToHideOptions();
     creatingContainerForImages();
@@ -40,7 +35,7 @@ MainWindow::~MainWindow()
 {
     delete ui;
     delete imageViewer;
-    delete treeOptionWidget;
+    delete optionWidget;
     delete containerWidgetImages;
     delete buttonImageViewHide;
     delete buttonOptionsHide;
@@ -48,11 +43,11 @@ MainWindow::~MainWindow()
 
 void MainWindow::hideOptionWidget()
 {
-    if (treeOptionWidget->isHidden()) {
-        treeOptionWidget->setHidden(false);
+    if (optionWidget->isHidden()) {
+        optionWidget->setHidden(false);
         buttonOptionsHide->setIcon(QIcon(":/mainWindow/ArrowLeft.png"));
     } else {
-        treeOptionWidget->setHidden(true);
+        optionWidget->setHidden(true);
         buttonOptionsHide->setIcon(QIcon(":/mainWindow/arrowRight.png"));
     }
 }
@@ -105,7 +100,7 @@ void MainWindow::settingUpMainLayout()
     layout->addWidget(buttonImageViewHide);
     layout->addWidget(imageViewer);
     layout->addWidget(buttonOptionsHide);
-    layout->addWidget(treeOptionWidget);
+    layout->addWidget(optionWidget);
     layout->setStretch(0, 2);
     layout->setStretch(1, 1);
     layout->setStretch(2, 5);

@@ -14,6 +14,7 @@ add_executable(${PROJECT_NAME}
     src/gui/imagecontainer.h
     src/gui/informationaboutimage.h
     src/gui/aboutwidget.h
+    src/gui/optionwidget.h
     
     # Sources
     src/app/main.cpp
@@ -23,11 +24,13 @@ add_executable(${PROJECT_NAME}
     src/gui/imagecontainer.cpp
     src/gui/informationaboutimage.cpp
     src/gui/aboutwidget.cpp
+    src/gui/optionwidget.cpp
 
     # Forms
     src/gui/mainwindow.ui
     src/gui/informationaboutimage.ui
     src/gui/aboutwidget.ui
+    src/gui/optionwidget.ui
 
     # Resources
     src/icons/icons.qrc

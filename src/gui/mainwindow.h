@@ -25,8 +25,7 @@ public slots:
 private:
     Ui::MainWindow* ui;
     class ImageViewer* imageViewer;
-    class QTreeWidget* treeOptionWidget;
-    class QTreeWidgetItem* item;
+    class OptionWidget* optionWidget;
     class AboutWidget* aboutWidget;
     class ImageContainer* containerWidgetImages;
     class QPushButton* buttonImageViewHide;
