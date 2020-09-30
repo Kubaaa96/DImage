@@ -21,14 +21,13 @@ public:
     void setPhoto(QImage image);
     void wheelEvent(QWheelEvent* event) override;
     bool hasPhoto();
-    void removeCurrentPhoto();
     QImage getPhoto();
 
 private:
     bool empty;
     QGraphicsPixmapItem* photo;
     QGraphicsScene* scene;
-    float zoom;
+    float zoom { 0 };
 
     void clearPhoto();
 };

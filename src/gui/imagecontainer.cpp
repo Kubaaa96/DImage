@@ -20,7 +20,7 @@ ImageContainer::ImageContainer(ImageViewer* imageViewer, QWidget* parent)
     , QListWidget(parent)
 {
     this->setViewMode(QListWidget::IconMode);
-    this->setIconSize(QSize(200, 200));
+    this->setIconSize(iconSize);
     this->setResizeMode(QListWidget::Adjust);
     this->setDragDropMode(DragDropMode::NoDragDrop);
     this->setContextMenuPolicy(Qt::CustomContextMenu);

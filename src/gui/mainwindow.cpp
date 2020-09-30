@@ -21,12 +21,10 @@ MainWindow::MainWindow(QWidget* parent)
 
     imageViewer = new ImageViewer();
 
-    optionWidget = new OptionWidget();
-    optionWidget->setMaximumWidth(250);
-
     creatingButtonToHideOptions();
-    creatingContainerForImages();
     creatingButtonToHideContainer();
+    creatingContainerForImages();
+    creatingOptionsWidget();
     settingUpMainLayout();
     connectingCommands();
 }
@@ -39,6 +37,63 @@ MainWindow::~MainWindow()
     delete containerWidgetImages;
     delete buttonImageViewHide;
     delete buttonOptionsHide;
+}
+
+void MainWindow::creatingButtonToHideOptions()
+{
+    buttonOptionsHide = new QPushButton();
+    buttonOptionsHide->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Preferred);
+    buttonOptionsHide->setMaximumWidth(maximumWidthOfHidingButtons); // TODO Change Magic Numbers
+    //printf(icon.isNull() ? "true" : "false");
+    buttonOptionsHide->setIcon(QIcon(":/mainWindow/ArrowLeft.png"));
+}
+
+void MainWindow::creatingButtonToHideContainer()
+{
+    buttonImageViewHide = new QPushButton();
+    buttonImageViewHide->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Preferred);
+
+    buttonImageViewHide->setMaximumWidth(maximumWidthOfHidingButtons); // TODO Change Magic Numbers
+    buttonImageViewHide->setIcon(QIcon(":/mainWindow/arrowRight.png"));
+}
+
+void MainWindow::creatingContainerForImages()
+{
+    containerWidgetImages = new ImageContainer(imageViewer, nullptr);
+    containerWidgetImages->setMaximumWidth(maximumWidthOfSidesWidgets); // TODO Change Magic Numbers
+}
+
+void MainWindow::settingUpMainLayout()
+{
+    auto layout = new QHBoxLayout;
+    layout->addWidget(containerWidgetImages);
+    layout->addWidget(buttonImageViewHide);
+    layout->addWidget(imageViewer);
+    layout->addWidget(buttonOptionsHide);
+    layout->addWidget(optionWidget);
+    layout->setStretch(0, 2);
+    layout->setStretch(1, 1);
+    layout->setStretch(2, 5);
+    layout->setStretch(3, 1);
+    layout->setStretch(4, 2);
+
+    ui->centralwidget->setLayout(layout);
+}
+
+void MainWindow::connectingCommands()
+{
+    connect(ui->actionOpen_Image, &QAction::triggered, this, &MainWindow::openFile);
+    connect(ui->actionSave_asImage, &QAction::triggered, this, &MainWindow::saveFile);
+    connect(ui->actionExit, &QAction::triggered, this, &MainWindow::close);
+    connect(ui->actionAbout, &QAction::triggered, this, &MainWindow::about);
+    connect(buttonOptionsHide, &QPushButton::pressed, this, &MainWindow::hideOptionWidget);
+    connect(buttonImageViewHide, &QPushButton::pressed, this, &MainWindow::hideImageLayout);
+}
+
+void MainWindow::creatingOptionsWidget()
+{
+    optionWidget = new OptionWidget();
+    optionWidget->setMaximumWidth(maximumWidthOfSidesWidgets);
 }
 
 void MainWindow::hideOptionWidget()
@@ -70,56 +125,6 @@ void MainWindow::about()
     aboutWidget->setAttribute(Qt::WA_QuitOnClose, false);
 }
 
-void MainWindow::creatingContainerForImages()
-{
-    containerWidgetImages = new ImageContainer(imageViewer, nullptr);
-    containerWidgetImages->setMaximumWidth(250); // TODO Change Magic Numbers
-}
-
-void MainWindow::creatingButtonToHideContainer()
-{
-    buttonImageViewHide = new QPushButton();
-    buttonImageViewHide->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Preferred);
-    buttonImageViewHide->setMaximumWidth(30); // TODO Change Magic Numbers
-    buttonImageViewHide->setIcon(QIcon(":/mainWindow/arrowRight.png"));
-}
-
-void MainWindow::creatingButtonToHideOptions()
-{
-    buttonOptionsHide = new QPushButton();
-    buttonOptionsHide->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Preferred);
-    buttonOptionsHide->setMaximumWidth(30); // TODO Change Magic Numbers
-    //printf(icon.isNull() ? "true" : "false");
-    buttonOptionsHide->setIcon(QIcon(":/mainWindow/ArrowLeft.png"));
-}
-
-void MainWindow::settingUpMainLayout()
-{
-    auto layout = new QHBoxLayout;
-    layout->addWidget(containerWidgetImages);
-    layout->addWidget(buttonImageViewHide);
-    layout->addWidget(imageViewer);
-    layout->addWidget(buttonOptionsHide);
-    layout->addWidget(optionWidget);
-    layout->setStretch(0, 2);
-    layout->setStretch(1, 1);
-    layout->setStretch(2, 5);
-    layout->setStretch(3, 1);
-    layout->setStretch(4, 2);
-
-    ui->centralwidget->setLayout(layout);
-}
-
-void MainWindow::connectingCommands()
-{
-    connect(ui->actionOpen_Image, &QAction::triggered, this, &MainWindow::openFile);
-    connect(ui->actionSave_asImage, &QAction::triggered, this, &MainWindow::saveFile);
-    connect(ui->actionExit, &QAction::triggered, this, &MainWindow::close);
-    connect(ui->actionAbout, &QAction::triggered, this, &MainWindow::about);
-    connect(buttonOptionsHide, &QPushButton::pressed, this, &MainWindow::hideOptionWidget);
-    connect(buttonImageViewHide, &QPushButton::pressed, this, &MainWindow::hideImageLayout);
-}
-
 void MainWindow::openFile()
 {
     bool isFirstImageSetup = false;
@@ -131,18 +136,20 @@ void MainWindow::openFile()
         loadedImage = reader.read();
         if (loadedImage.isNull()) {
             QMessageBox::information(this, QGuiApplication::applicationDisplayName(),
-                tr("Cannot load %1: %2")
-                    .arg(QDir::toNativeSeparators(filePath), reader.errorString()));
+                tr("Cannot load %1")
+                    .arg(QDir::toNativeSeparators(filePath)));
             return;
         }
-        // TODO Separate from Open Funciton
-        containerWidgetImages->addItemToContainer(loadedImage, filePath);
-        if (!isFirstImageSetup) {
-            imageViewer->setPhoto(loadedImage);
-        }
+        addItemToContainerAndSetPhotoToViewer(loadedImage, filePath, isFirstImageSetup);
     }
+}
 
-    //containerWidgetImages->addItem(new QListWidgetItem(QIcon(QPixmap::fromImage(loadedImage)), QFileInfo(filePath).fileName()));
+void MainWindow::addItemToContainerAndSetPhotoToViewer(QImage& image, QString path, bool isFirstImageSetup)
+{
+    containerWidgetImages->addItemToContainer(image, path);
+    if (!isFirstImageSetup) {
+        imageViewer->setPhoto(image);
+    }
 }
 
 void MainWindow::saveFile()

@@ -7,7 +7,6 @@ ImageViewer::ImageViewer(QWidget* parent)
     scene = new QGraphicsScene(this);
     scene->addItem(photo);
     this->setScene(scene);
-    zoom = 0;
 }
 
 ImageViewer::~ImageViewer()
@@ -28,7 +27,7 @@ void ImageViewer::setPhoto(QImage image)
         this->setDragMode(QGraphicsView::ScrollHandDrag);
         photo->setPixmap(pixmapPhoto);
     }
-    //printf(empty ? "true" : "false");
+    // TODO based on choosen option in Option Widget
     fitInView(photo);
 }
 

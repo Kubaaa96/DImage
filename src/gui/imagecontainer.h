@@ -31,6 +31,8 @@ private:
     QVector<QString>* vectorOfImagePaths;
     ImageViewer* instanceOfImageViewer;
     class InformationAboutImage* informationWindow;
+
+    const QSize iconSize { 200, 200 };
 };
 
 #endif // IMAGECONTAINER_H

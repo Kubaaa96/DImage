@@ -33,10 +33,16 @@ private:
     class QImage loadedImage;
 
     void creatingContainerForImages();
+    void creatingOptionsWidget();
     void creatingButtonToHideContainer();
     void creatingButtonToHideOptions();
     void settingUpMainLayout();
     void connectingCommands();
+
+    void addItemToContainerAndSetPhotoToViewer(QImage& image, QString path, bool isFirstImageSetup);
+
+    const int maximumWidthOfHidingButtons { 30 };
+    const int maximumWidthOfSidesWidgets { 250 };
 };
 
 #endif // MAINWINDOW_H
