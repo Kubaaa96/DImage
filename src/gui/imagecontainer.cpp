@@ -87,6 +87,11 @@ void ImageContainer::showImageInformation()
     informationWindow->setWindowTitle(tr("Information about image: %1").arg(this->itemAt(clickedPosition)->text()));
 }
 
+void ImageContainer::clickOnItem()
+{
+    QMessageBox::warning(this, "CLICK ON ITEM", "I SAID CLICK ON THE ITEM FOR MORE OPTION", QMessageBox::Yes, QMessageBox::Yes);
+}
+
 void ImageContainer::settingPhotoToMainImageViewer()
 {
     instanceOfImageViewer->setPhoto(vectorOfImages->at(this->selectionModel()->selectedIndexes().first().row()));
@@ -99,14 +104,20 @@ void ImageContainer::ShowContextMenu(const QPoint& pos)
     QAction saveSelectedFile("Save As", this);
     QAction deleteImage("Delete", this);
     QAction informationAboutImage("Info", this);
+    QAction itemNotClicked("Click on Item to see more options", this);
 
     connect(&saveSelectedFile, &QAction::triggered, this, &ImageContainer::saveSelectedFile);
     connect(&deleteImage, &QAction::triggered, this, &ImageContainer::deleteImage);
     connect(&informationAboutImage, &QAction::triggered, this, &ImageContainer::showImageInformation);
+    connect(&itemNotClicked, &QAction::triggered, this, &ImageContainer::clickOnItem);
 
-    contextMenu.addAction(&saveSelectedFile);
-    contextMenu.addAction(&deleteImage);
-    contextMenu.addAction(&informationAboutImage);
+    if (itemAt(clickedPosition)) {
+        contextMenu.addAction(&saveSelectedFile);
+        contextMenu.addAction(&deleteImage);
+        contextMenu.addAction(&informationAboutImage);
+    } else {
+        contextMenu.addAction(&itemNotClicked);
+    }
 
     contextMenu.exec(mapToGlobal(pos));
 }

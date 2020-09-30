@@ -24,6 +24,7 @@ public slots:
     void saveSelectedFile();
     void deleteImage();
     void showImageInformation();
+    void clickOnItem();
 
 private:
     QPoint clickedPosition;
