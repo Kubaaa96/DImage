@@ -29,9 +29,10 @@ private:
     QPoint clickedPosition;
     QVector<QImage>* vectorOfImages;
     QVector<QString>* vectorOfImagePaths;
-    ImageViewer* instanceOfImageViewer;
+    class ImageViewer* instanceOfImageViewer;
     class InformationAboutImage* informationWindow;
 
+    int indexOfClickedItem { 0 };
     const QSize iconSize { 200, 200 };
 };
 

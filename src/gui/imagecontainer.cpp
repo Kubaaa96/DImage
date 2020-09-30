@@ -27,6 +27,7 @@ ImageContainer::ImageContainer(ImageViewer* imageViewer, QWidget* parent)
 
     vectorOfImages = new QVector<QImage>;
     vectorOfImagePaths = new QVector<QString>;
+    informationWindow = new InformationAboutImage();
 
     //connect(this, SIGNAL(customContextMenuRequested(const QPoint&)), this, SLOT(ShowContextMenu(const QPoint&)));
     connect(this, &QListWidget::customContextMenuRequested, this, &ImageContainer::ShowContextMenu);
@@ -37,6 +38,7 @@ ImageContainer::~ImageContainer()
 {
     delete vectorOfImages;
     delete vectorOfImagePaths;
+    delete informationWindow;
 }
 
 void ImageContainer::addItemToContainer(QImage& image, QString filePath)
@@ -78,8 +80,8 @@ void ImageContainer::deleteImage()
 
 void ImageContainer::showImageInformation()
 {
-    int indexOfClickedItem = this->row(this->itemAt(clickedPosition));
-    informationWindow = new InformationAboutImage(vectorOfImages->at(indexOfClickedItem), vectorOfImagePaths->at(indexOfClickedItem));
+    indexOfClickedItem = row(this->itemAt(clickedPosition));
+    informationWindow->setupInformation(vectorOfImages->at(indexOfClickedItem), vectorOfImagePaths->at(indexOfClickedItem));
     informationWindow->show();
     informationWindow->setAttribute(Qt::WA_QuitOnClose, false);
     informationWindow->setWindowTitle(tr("Information about image: %1").arg(this->itemAt(clickedPosition)->text()));
@@ -87,8 +89,6 @@ void ImageContainer::showImageInformation()
 
 void ImageContainer::settingPhotoToMainImageViewer()
 {
-    //qInfo() << vectorOfImages->isEmpty() ;
-    //printf(vectorOfImages->isEmpty() ? "true" : "false");
     instanceOfImageViewer->setPhoto(vectorOfImages->at(this->selectionModel()->selectedIndexes().first().row()));
 }
 

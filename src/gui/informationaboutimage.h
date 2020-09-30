@@ -11,13 +11,13 @@ class InformationAboutImage : public QWidget {
     Q_OBJECT
 
 public:
-    explicit InformationAboutImage(const QImage& image, const QString path, QWidget* parent = nullptr);
+    explicit InformationAboutImage(QWidget* parent = nullptr);
     ~InformationAboutImage();
+    void setupInformation(const QImage& imageToSetup, const QString pathToSetup);
 
 private:
     Ui::InformationAboutImage* ui;
-    QImage image;
-    QString path;
+    const QSize sizeOfScalledImage{ 400, 400 };
 };
 
 #endif // INFORMATIONABOUTIMAGE_H

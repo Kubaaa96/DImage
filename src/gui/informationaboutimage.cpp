@@ -3,20 +3,24 @@
 
 #include <QFileInfo>
 
-InformationAboutImage::InformationAboutImage(const QImage& image, const QString path, QWidget* parent)
+InformationAboutImage::InformationAboutImage(QWidget* parent)
     : QWidget(parent)
     , ui(new Ui::InformationAboutImage)
-    , image(image)
-    , path(path)
+
 {
     ui->setupUi(this);
-    ui->labelImage->setPixmap(QPixmap::fromImage(image));
-    ui->labelName->setText("Name: " + QFileInfo(path).fileName());
-    ui->labelOriginalSize->setText("Original size: " + QString::number(image.size().width()) + " x " + QString::number(image.size().height()));
-    ui->labelPath->setText("Path: " + path);
 }
 
 InformationAboutImage::~InformationAboutImage()
 {
     delete ui;
+}
+
+void InformationAboutImage::setupInformation(const QImage& imageToSetup, const QString pathToSetup)
+{
+    QImage tempImage = imageToSetup.scaled(sizeOfScalledImage, Qt::AspectRatioMode::KeepAspectRatio);
+    ui->labelImage->setPixmap(QPixmap::fromImage(tempImage));
+    ui->labelName->setText("Name: " + QFileInfo(pathToSetup).fileName());
+    ui->labelOriginalSize->setText("Original size: " + QString::number(imageToSetup.size().width()) + " x " + QString::number(imageToSetup.size().height()));
+    ui->labelPath->setText("Path: " + pathToSetup);
 }

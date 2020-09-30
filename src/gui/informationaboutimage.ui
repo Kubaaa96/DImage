@@ -26,6 +26,11 @@
    </item>
    <item>
     <widget class="QLabel" name="labelName">
+     <property name="font">
+      <font>
+       <pointsize>12</pointsize>
+      </font>
+     </property>
      <property name="text">
       <string>Image Name</string>
      </property>
@@ -36,6 +41,11 @@
    </item>
    <item>
     <widget class="QLabel" name="labelOriginalSize">
+     <property name="font">
+      <font>
+       <pointsize>12</pointsize>
+      </font>
+     </property>
      <property name="text">
       <string>Original Size</string>
      </property>
@@ -46,6 +56,11 @@
    </item>
    <item>
     <widget class="QLabel" name="labelPath">
+     <property name="font">
+      <font>
+       <pointsize>12</pointsize>
+      </font>
+     </property>
      <property name="text">
       <string>Path</string>
      </property>
