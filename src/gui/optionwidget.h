@@ -4,19 +4,26 @@
 #include <QTabWidget>
 
 namespace Ui {
-  class OptionWidget;
+class OptionWidget;
 }
 
-class OptionWidget : public QTabWidget
-{
-  Q_OBJECT
+class OptionWidget : public QTabWidget {
+    Q_OBJECT
 
 public:
-  explicit OptionWidget(QWidget *parent = nullptr);
-  ~OptionWidget();
+    explicit OptionWidget(QWidget* parent = nullptr);
+    ~OptionWidget();
 
 private:
-  Ui::OptionWidget *ui;
+    Ui::OptionWidget* ui;
+
+    QWidget* baseTab;
+    QWidget* openCVTab;
+    QWidget* computerVisionTab;
+
+    void setupBaseTab();
+    void setupOpenCVTab();
+    void setupComputerVisionTab();
 };
 
 #endif // OPTIONWIDGET_H
