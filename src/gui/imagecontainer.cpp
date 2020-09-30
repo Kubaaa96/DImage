@@ -19,11 +19,11 @@ ImageContainer::ImageContainer(ImageViewer* imageViewer, QWidget* parent)
     : instanceOfImageViewer(imageViewer)
     , QListWidget(parent)
 {
-    this->setViewMode(QListWidget::IconMode);
-    this->setIconSize(iconSize);
-    this->setResizeMode(QListWidget::Adjust);
-    this->setDragDropMode(DragDropMode::NoDragDrop);
-    this->setContextMenuPolicy(Qt::CustomContextMenu);
+    setViewMode(QListWidget::IconMode);
+    setIconSize(iconSize);
+    setResizeMode(QListWidget::Adjust);
+    setDragDropMode(DragDropMode::NoDragDrop);
+    setContextMenuPolicy(Qt::CustomContextMenu);
 
     vectorOfImages = new QVector<QImage>;
     vectorOfImagePaths = new QVector<QString>;
@@ -63,7 +63,7 @@ void ImageContainer::saveSelectedFile()
 
 void ImageContainer::deleteImage()
 {
-    if (this->count() > 0 && this != nullptr && QMessageBox::Yes == QMessageBox::warning(this, tr("Deleting %1").arg(this->itemAt(clickedPosition)->text()), "Are you sure you want to Delete this Image", QMessageBox::Yes | QMessageBox::No)) {
+    if (count() > 0 && itemAt(clickedPosition) && QMessageBox::Yes == QMessageBox::warning(this, tr("Deleting %1").arg(this->itemAt(clickedPosition)->text()), "Are you sure you want to Delete this Image", QMessageBox::Yes | QMessageBox::No)) {
 
         int indexOfClickedItem = this->row(this->itemAt(clickedPosition));
 

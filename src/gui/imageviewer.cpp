@@ -6,7 +6,7 @@ ImageViewer::ImageViewer(QWidget* parent)
     clearPhoto();
     scene = new QGraphicsScene(this);
     scene->addItem(photo);
-    this->setScene(scene);
+    setScene(scene);
 }
 
 ImageViewer::~ImageViewer()
