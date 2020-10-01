@@ -1,6 +1,9 @@
 #ifndef OPTIONWIDGET_H
 #define OPTIONWIDGET_H
 
+#include "imageviewer.h"
+
+#include <QCheckBox>
 #include <QTabWidget>
 
 namespace Ui {
@@ -11,8 +14,10 @@ class OptionWidget : public QTabWidget {
     Q_OBJECT
 
 public:
-    explicit OptionWidget(QWidget* parent = nullptr);
+    explicit OptionWidget(ImageViewer* imageViewer, QWidget* parent = nullptr);
     ~OptionWidget();
+public slots:
+    void fitInViewStateChanged();
 
 private:
     Ui::OptionWidget* ui;
@@ -20,6 +25,10 @@ private:
     QWidget* baseTab;
     QWidget* openCVTab;
     QWidget* computerVisionTab;
+
+    class ImageViewer* instanceOfImageViewer;
+
+    QCheckBox* fitInViewCheckBox;
 
     void setupBaseTab();
     void setupOpenCVTab();

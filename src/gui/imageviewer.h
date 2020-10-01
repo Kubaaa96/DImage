@@ -22,6 +22,7 @@ public:
     void wheelEvent(QWheelEvent* event) override;
     bool hasPhoto();
     QImage getPhoto();
+    QGraphicsPixmapItem* getPhotoAsGraphicsPixmapItem();
 
 private:
     bool empty;

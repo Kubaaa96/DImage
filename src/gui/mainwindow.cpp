@@ -92,7 +92,7 @@ void MainWindow::connectingCommands()
 
 void MainWindow::creatingOptionsWidget()
 {
-    optionWidget = new OptionWidget();
+    optionWidget = new OptionWidget(imageViewer, nullptr);
     optionWidget->setMaximumWidth(maximumWidthOfSidesWidgets);
 }
 

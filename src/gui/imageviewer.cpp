@@ -62,6 +62,11 @@ QImage ImageViewer::getPhoto()
     return photo->pixmap().toImage();
 }
 
+QGraphicsPixmapItem* ImageViewer::getPhotoAsGraphicsPixmapItem()
+{
+    return photo;
+}
+
 void ImageViewer::clearPhoto()
 {
     empty = true;
