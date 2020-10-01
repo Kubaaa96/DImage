@@ -6,6 +6,7 @@ ImageViewer::ImageViewer(QWidget* parent)
     clearPhoto();
     scene = new QGraphicsScene(this);
     scene->addItem(photo);
+
     setScene(scene);
 }
 
@@ -14,7 +15,7 @@ ImageViewer::~ImageViewer()
     delete photo;
 }
 
-void ImageViewer::setPhoto(QImage image)
+void ImageViewer::setPhoto(QImage image, Qt::AspectRatioMode aspectRationMode)
 {
     zoom = 0;
     QPixmap pixmapPhoto = QPixmap::fromImage(image);
@@ -28,7 +29,7 @@ void ImageViewer::setPhoto(QImage image)
         photo->setPixmap(pixmapPhoto);
     }
     // TODO based on choosen option in Option Widget
-    fitInView(photo);
+    fitInView(photo, aspectRationMode);
 }
 
 void ImageViewer::wheelEvent(QWheelEvent* event)

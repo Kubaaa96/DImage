@@ -45,7 +45,7 @@ void ImageContainer::addItemToContainer(QImage& image, QString filePath)
 {
     vectorOfImages->append(image);
     vectorOfImagePaths->append(filePath);
-    this->addItem(new QListWidgetItem(QIcon(QPixmap::fromImage(image)), QFileInfo(filePath).fileName()));
+    addItem(new QListWidgetItem(QIcon(QPixmap::fromImage(image)), QFileInfo(filePath).fileName()));
 }
 
 void ImageContainer::saveSelectedFile()
@@ -71,9 +71,9 @@ void ImageContainer::deleteImage()
         QListWidgetItem* itemToDelete = this->takeItem(indexOfClickedItem);
         delete itemToDelete;
         if (indexOfClickedItem > 0) {
-            instanceOfImageViewer->setPhoto(vectorOfImages->at(indexOfClickedItem - 1));
+            instanceOfImageViewer->setPhoto(vectorOfImages->at(indexOfClickedItem - 1), Qt::AspectRatioMode::KeepAspectRatio);
         } else {
-            instanceOfImageViewer->setPhoto(QImage());
+            instanceOfImageViewer->setPhoto(QImage(), Qt::AspectRatioMode::KeepAspectRatio);
         }
     }
 }
@@ -94,7 +94,7 @@ void ImageContainer::clickOnItem()
 
 void ImageContainer::settingPhotoToMainImageViewer()
 {
-    instanceOfImageViewer->setPhoto(vectorOfImages->at(this->selectionModel()->selectedIndexes().first().row()));
+    instanceOfImageViewer->setPhoto(vectorOfImages->at(this->selectionModel()->selectedIndexes().first().row()), Qt::AspectRatioMode::KeepAspectRatio);
 }
 
 void ImageContainer::ShowContextMenu(const QPoint& pos)

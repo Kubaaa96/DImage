@@ -4,6 +4,7 @@
 #include "imageviewer.h"
 
 #include <QCheckBox>
+#include <QPushButton>
 #include <QTabWidget>
 
 namespace Ui {
@@ -16,6 +17,8 @@ class OptionWidget : public QTabWidget {
 public:
     explicit OptionWidget(ImageViewer* imageViewer, QWidget* parent = nullptr);
     ~OptionWidget();
+    Qt::CheckState getfitInViewCheckBoxState();
+
 public slots:
     void fitInViewStateChanged();
 
@@ -29,6 +32,7 @@ private:
     class ImageViewer* instanceOfImageViewer;
 
     QCheckBox* fitInViewCheckBox;
+    QPushButton* buttonOriginalImage;
 
     void setupBaseTab();
     void setupOpenCVTab();

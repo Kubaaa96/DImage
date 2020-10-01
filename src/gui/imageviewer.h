@@ -18,7 +18,7 @@ class ImageViewer : public QGraphicsView {
 public:
     explicit ImageViewer(QWidget* parent = nullptr);
     ~ImageViewer();
-    void setPhoto(QImage image);
+    void setPhoto(QImage image, Qt::AspectRatioMode aspectRationMode);
     void wheelEvent(QWheelEvent* event) override;
     bool hasPhoto();
     QImage getPhoto();

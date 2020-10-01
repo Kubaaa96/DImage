@@ -148,7 +148,7 @@ void MainWindow::addItemToContainerAndSetPhotoToViewer(QImage& image, QString pa
 {
     containerWidgetImages->addItemToContainer(image, path);
     if (!isFirstImageSetup) {
-        imageViewer->setPhoto(image);
+        imageViewer->setPhoto(image, Qt::AspectRatioMode::KeepAspectRatio);
     }
 }
 

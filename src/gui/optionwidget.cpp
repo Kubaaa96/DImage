@@ -35,16 +35,20 @@ OptionWidget::~OptionWidget()
 
 void OptionWidget::setupBaseTab()
 {
-    QVBoxLayout* baseTabLayout = new QVBoxLayout(baseTab);
+    auto baseTabLayout = new QVBoxLayout(baseTab);
 
-    QGroupBox* baseInfoGBox = new QGroupBox("Basic Information");
+    auto baseInfoGBox = new QGroupBox("Basic Information");
     baseTabLayout->addWidget(baseInfoGBox);
 
-    QGroupBox* baseGeneraGBox = new QGroupBox("General Options");
+    auto baseGeneraGBox = new QGroupBox("General Options");
 
-    QVBoxLayout* baseGeneralVLayout = new QVBoxLayout(baseGeneraGBox);
+    auto baseGeneralVLayout = new QVBoxLayout(baseGeneraGBox);
+
     fitInViewCheckBox = new QCheckBox("Fit in View");
     baseGeneralVLayout->addWidget(fitInViewCheckBox);
+
+    buttonOriginalImage = new QPushButton("Original Image Size");
+    baseGeneralVLayout->addWidget(buttonOriginalImage);
 
     baseTabLayout->addWidget(baseGeneraGBox);
 }
@@ -57,15 +61,19 @@ void OptionWidget::setupComputerVisionTab()
 {
 }
 
+Qt::CheckState OptionWidget::getfitInViewCheckBoxState()
+{
+    return fitInViewCheckBox->checkState();
+}
+
 void OptionWidget::fitInViewStateChanged()
 {
     if (instanceOfImageViewer->hasPhoto()) {
         if (fitInViewCheckBox->checkState() == Qt::CheckState::Checked) {
-            qInfo() << "Fit in View Check box CHECKED";
             instanceOfImageViewer->fitInView(instanceOfImageViewer->getPhotoAsGraphicsPixmapItem());
         } else {
             // Original resolution or separate button to do that?
-            qInfo() << "Fit in view UNCHECKED";
+            instanceOfImageViewer->setPhoto(instanceOfImageViewer->getPhoto(), Qt::AspectRatioMode::KeepAspectRatio);
         }
     } else {
         qInfo() << "No photo";
