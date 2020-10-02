@@ -26,6 +26,7 @@ OptionWidget::OptionWidget(ImageViewer* imageViewer, QWidget* parent)
     addTab(computerVisionTab, "Computer Vision");
 
     connect(fitInViewCheckBox, &QCheckBox::stateChanged, this, &OptionWidget::fitInViewStateChanged);
+    connect(editModeCheckBox, &QCheckBox::stateChanged, this, &OptionWidget::editModeEnabler);
 }
 
 OptionWidget::~OptionWidget()
@@ -46,6 +47,9 @@ void OptionWidget::setupBaseTab()
 
     fitInViewCheckBox = new QCheckBox("Fit in View");
     baseGeneralVLayout->addWidget(fitInViewCheckBox);
+
+    editModeCheckBox = new QCheckBox("Edit Mode");
+    baseGeneralVLayout->addWidget(editModeCheckBox);
 
     buttonOriginalImage = new QPushButton("Original Image Size");
     baseGeneralVLayout->addWidget(buttonOriginalImage);
@@ -77,5 +81,16 @@ void OptionWidget::fitInViewStateChanged()
         }
     } else {
         qInfo() << "No photo";
+    }
+}
+
+void OptionWidget::editModeEnabler()
+{
+    if (editModeCheckBox->checkState() == Qt::CheckState::Checked) {
+        setTabEnabled(tabNameId::OpenCV, false);
+        setTabEnabled(tabNameId::ComputerVision, false);
+    } else {
+        setTabEnabled(tabNameId::OpenCV, true);
+        setTabEnabled(tabNameId::ComputerVision, true);
     }
 }

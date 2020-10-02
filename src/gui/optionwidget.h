@@ -21,6 +21,7 @@ public:
 
 public slots:
     void fitInViewStateChanged();
+    void editModeEnabler();
 
 private:
     Ui::OptionWidget* ui;
@@ -32,11 +33,18 @@ private:
     class ImageViewer* instanceOfImageViewer;
 
     QCheckBox* fitInViewCheckBox;
+    QCheckBox* editModeCheckBox;
     QPushButton* buttonOriginalImage;
 
     void setupBaseTab();
     void setupOpenCVTab();
     void setupComputerVisionTab();
+
+    enum tabNameId {
+        Base,
+        OpenCV,
+        ComputerVision
+    };
 };
 
 #endif // OPTIONWIDGET_H
