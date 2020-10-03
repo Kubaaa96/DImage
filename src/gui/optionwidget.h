@@ -4,6 +4,7 @@
 #include "imageviewer.h"
 
 #include <QCheckBox>
+#include <QLabel>
 #include <QPushButton>
 #include <QTabWidget>
 
@@ -18,6 +19,7 @@ public:
     explicit OptionWidget(ImageViewer* imageViewer, QWidget* parent = nullptr);
     ~OptionWidget();
     Qt::CheckState getfitInViewCheckBoxState();
+    void updateBaseInformation(QString path);
 
 public slots:
     void fitInViewStateChanged();
@@ -35,6 +37,10 @@ private:
     QCheckBox* fitInViewCheckBox;
     QCheckBox* editModeCheckBox;
     QPushButton* buttonOriginalImage;
+
+    QLabel* nameOfImage;
+    QLabel* sizeOfImage;
+    QLabel* pathToImage;
 
     void setupBaseTab();
     void setupOpenCVTab();

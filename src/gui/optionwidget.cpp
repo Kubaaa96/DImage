@@ -2,7 +2,9 @@
 #include "ui_optionwidget.h"
 
 #include <QDebug>
+#include <QFileInfo>
 #include <QGroupBox>
+
 #include <QVBoxLayout>
 
 OptionWidget::OptionWidget(ImageViewer* imageViewer, QWidget* parent)
@@ -39,10 +41,19 @@ void OptionWidget::setupBaseTab()
     auto baseTabLayout = new QVBoxLayout(baseTab);
 
     auto baseInfoGBox = new QGroupBox("Basic Information");
+    auto baseInfoVLayout = new QVBoxLayout(baseInfoGBox);
+
+    nameOfImage = new QLabel();
+
+    baseInfoVLayout->addWidget(nameOfImage);
+    sizeOfImage = new QLabel();
+    baseInfoVLayout->addWidget(sizeOfImage);
+    pathToImage = new QLabel();
+    baseInfoVLayout->addWidget(pathToImage);
+
     baseTabLayout->addWidget(baseInfoGBox);
 
     auto baseGeneraGBox = new QGroupBox("General Options");
-
     auto baseGeneralVLayout = new QVBoxLayout(baseGeneraGBox);
 
     fitInViewCheckBox = new QCheckBox("Fit in View");
@@ -68,6 +79,13 @@ void OptionWidget::setupComputerVisionTab()
 Qt::CheckState OptionWidget::getfitInViewCheckBoxState()
 {
     return fitInViewCheckBox->checkState();
+}
+
+void OptionWidget::updateBaseInformation(QString path)
+{
+    nameOfImage->setText("Name: " + QFileInfo(path).fileName());
+    sizeOfImage->setText("Original size: " + QString::number(instanceOfImageViewer->getPhoto().size().width()) + " x " + QString::number(instanceOfImageViewer->getPhoto().size().height()));
+    pathToImage->setText("Path: " + path);
 }
 
 void OptionWidget::fitInViewStateChanged()

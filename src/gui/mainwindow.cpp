@@ -141,6 +141,7 @@ void MainWindow::openFile()
             return;
         }
         addItemToContainerAndSetPhotoToViewer(loadedImage, filePath, isFirstImageSetup);
+        optionWidget->updateBaseInformation(filePath);
     }
 }
 
