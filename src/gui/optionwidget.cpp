@@ -29,6 +29,9 @@ OptionWidget::OptionWidget(ImageViewer* imageViewer, QWidget* parent)
 
     connect(fitInViewCheckBox, &QCheckBox::stateChanged, this, &OptionWidget::fitInViewStateChanged);
     connect(editModeCheckBox, &QCheckBox::stateChanged, this, &OptionWidget::editModeEnabler);
+    connect(buttonSaveChangesBasicTab, &QPushButton::pressed, this, &OptionWidget::saveChanges);
+    connect(buttonSaveChangesOpenCVTab, &QPushButton::pressed, this, &OptionWidget::saveChanges);
+    connect(buttonSaveChangesComputerVisionTab, &QPushButton::pressed, this, &OptionWidget::saveChanges);
 }
 
 OptionWidget::~OptionWidget()
@@ -38,7 +41,12 @@ OptionWidget::~OptionWidget()
 
 void OptionWidget::setupBaseTab()
 {
+
     auto baseTabLayout = new QVBoxLayout(baseTab);
+
+    buttonSaveChangesBasicTab = new QPushButton("Save Changes");
+    buttonSaveChangesBasicTab->setMaximumHeight(maximumSizeOfSaveButton);
+    baseTabLayout->addWidget(buttonSaveChangesBasicTab);
 
     auto baseInfoGBox = new QGroupBox("Basic Information");
     auto baseInfoVLayout = new QVBoxLayout(baseInfoGBox);
@@ -70,10 +78,18 @@ void OptionWidget::setupBaseTab()
 
 void OptionWidget::setupOpenCVTab()
 {
+    auto openCVTabLayout = new QVBoxLayout(openCVTab);
+    buttonSaveChangesOpenCVTab = new QPushButton("Save Changes");
+    buttonSaveChangesOpenCVTab->setMaximumHeight(maximumSizeOfSaveButton);
+    openCVTabLayout->addWidget(buttonSaveChangesOpenCVTab);
 }
 
 void OptionWidget::setupComputerVisionTab()
 {
+    auto computerVisionTabLayout = new QVBoxLayout(computerVisionTab);
+    buttonSaveChangesComputerVisionTab = new QPushButton("Save Changes");
+    buttonSaveChangesComputerVisionTab->setMaximumHeight(maximumSizeOfSaveButton);
+    computerVisionTabLayout->addWidget(buttonSaveChangesComputerVisionTab);
 }
 
 Qt::CheckState OptionWidget::getfitInViewCheckBoxState()
@@ -111,4 +127,9 @@ void OptionWidget::editModeEnabler()
         setTabEnabled(tabNameId::OpenCV, true);
         setTabEnabled(tabNameId::ComputerVision, true);
     }
+}
+
+void OptionWidget::saveChanges()
+{
+    qInfo() << "Save Changes";
 }

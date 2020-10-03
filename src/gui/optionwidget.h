@@ -24,6 +24,7 @@ public:
 public slots:
     void fitInViewStateChanged();
     void editModeEnabler();
+    void saveChanges();
 
 private:
     Ui::OptionWidget* ui;
@@ -37,6 +38,10 @@ private:
     QCheckBox* fitInViewCheckBox;
     QCheckBox* editModeCheckBox;
     QPushButton* buttonOriginalImage;
+    const int maximumSizeOfSaveButton { 30 };
+    QPushButton* buttonSaveChangesBasicTab;
+    QPushButton* buttonSaveChangesOpenCVTab;
+    QPushButton* buttonSaveChangesComputerVisionTab;
 
     QLabel* nameOfImage;
     QLabel* sizeOfImage;
