@@ -12,6 +12,11 @@ set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTOUIC ON)
 set(CMAKE_AUTORCC ON)
 
+set(OpenCV_DIR "D:\\OpenCV\\opencv\\build\\")
+find_package(OpenCV REQUIRED)
+include_directories(${OpenCV_INCLUDE_DIRS})
+
+
 find_package(Qt5 COMPONENTS Core Gui Widgets REQUIRED)
 
 add_executable(${PROJECT_NAME}
@@ -47,4 +52,5 @@ target_link_libraries(${PROJECT_NAME}
     PUBLIC
     Qt5::Core
     Qt5::Gui
-    Qt5::Widgets)
+    Qt5::Widgets
+    ${OpenCV_LIBS})
