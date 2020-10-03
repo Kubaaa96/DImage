@@ -1,4 +1,11 @@
 cmake_minimum_required(VERSION 3.10.0 FATAL_ERROR)
+
+if (NOT CMAKE_BUILD_TYPE)
+  set(CMAKE_BUILD_TYPE Release CACHE STRING
+      "None Debug Release RelWithDebInfo MinSizeRel"
+      FORCE)
+endif()
+
 project(DImage LANGUAGES CXX)
 
 set(CMAKE_AUTOMOC ON)
