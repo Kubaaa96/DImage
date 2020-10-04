@@ -43,6 +43,18 @@ private:
     QPushButton* buttonSaveChangesOpenCVTab;
     QPushButton* buttonSaveChangesComputerVisionTab;
 
+    // OpenCV Operation
+    QCheckBox* cannyEdgeCheckBox;
+    // Image Rotation Two Buttons with arrows
+    // Image Translation Matrix of translation? Dragable Contours of image or corners?
+    // Adaptive Threshgholding Slider + Push Button
+    // Basic Image Segmentation Button
+    // BitWise Operation Separate Small group box?
+    // Smoothing Images Separate Group Box
+    // Image Contours Push Button
+    // SIFT Button and maybe line edit
+    // SURF Button and maybe line edit
+
     QLabel* nameOfImage;
     QLabel* sizeOfImage;
     QLabel* pathToImage;

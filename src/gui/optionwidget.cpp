@@ -4,7 +4,6 @@
 #include <QDebug>
 #include <QFileInfo>
 #include <QGroupBox>
-
 #include <QVBoxLayout>
 
 OptionWidget::OptionWidget(ImageViewer* imageViewer, QWidget* parent)
@@ -79,9 +78,18 @@ void OptionWidget::setupBaseTab()
 void OptionWidget::setupOpenCVTab()
 {
     auto openCVTabLayout = new QVBoxLayout(openCVTab);
+
     buttonSaveChangesOpenCVTab = new QPushButton("Save Changes");
     buttonSaveChangesOpenCVTab->setMaximumHeight(maximumSizeOfSaveButton);
     openCVTabLayout->addWidget(buttonSaveChangesOpenCVTab);
+
+    auto basicOperationGBox = new QGroupBox("Basic Operations");
+    auto basicOperationVLayout = new QVBoxLayout(basicOperationGBox);
+
+    cannyEdgeCheckBox = new QCheckBox("Canny Edge detector");
+    basicOperationVLayout->addWidget(cannyEdgeCheckBox);
+
+    openCVTabLayout->addWidget(basicOperationGBox);
 }
 
 void OptionWidget::setupComputerVisionTab()
