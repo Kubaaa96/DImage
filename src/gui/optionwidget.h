@@ -44,6 +44,7 @@ private:
     QPushButton* buttonSaveChangesComputerVisionTab;
 
     // OpenCV Operation
+    //Edge detection Slider ?
     QCheckBox* cannyEdgeCheckBox;
     // Image Rotation Two Buttons with arrows
     // Image Translation Matrix of translation? Dragable Contours of image or corners?

@@ -21,6 +21,8 @@ find_package(Qt5 COMPONENTS Core Gui Widgets REQUIRED)
 
 add_executable(${PROJECT_NAME}
     # Headers
+    src/app/openCVOperations.h
+
     src/gui/mainwindow.h
     src/gui/imageviewer.h
     src/gui/imagecontainer.h
@@ -30,6 +32,7 @@ add_executable(${PROJECT_NAME}
     
     # Sources
     src/app/main.cpp
+    src/app/openCVOperations.cpp
 
     src/gui/mainwindow.cpp
     src/gui/imageviewer.cpp
