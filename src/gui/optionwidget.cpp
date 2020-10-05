@@ -5,6 +5,9 @@
 #include <QDebug>
 #include <QFileInfo>
 #include <QGroupBox>
+#include <QHBoxLayout>
+#include <QLineEdit>
+#include <QSlider>
 #include <QVBoxLayout>
 
 OptionWidget::OptionWidget(ImageViewer* imageViewer, QWidget* parent)
@@ -86,13 +89,47 @@ void OptionWidget::setupOpenCVTab()
     buttonSaveChangesOpenCVTab->setMaximumHeight(maximumSizeOfSaveButton);
     openCVTabLayout->addWidget(buttonSaveChangesOpenCVTab);
 
-    auto basicOperationGBox = new QGroupBox("Basic Operations");
-    auto basicOperationVLayout = new QVBoxLayout(basicOperationGBox);
+    // Edge Group Box
+    auto cannyEdgeGBox = new QGroupBox("Canny Edge Algorithm");
+    auto cannyEdgeVBLayout = new QVBoxLayout(cannyEdgeGBox);
 
     cannyEdgeCheckBox = new QCheckBox("Canny Edge detector");
-    basicOperationVLayout->addWidget(cannyEdgeCheckBox);
+    cannyEdgeVBLayout->addWidget(cannyEdgeCheckBox);
 
-    openCVTabLayout->addWidget(basicOperationGBox);
+    // Min Value
+    auto minValueHBLayout = new QHBoxLayout();
+
+    auto minValueLabel = new QLabel("0");
+    minValueHBLayout->addWidget(minValueLabel);
+    //TODO Think about separators to give more space for label
+    auto minEdgeSlider = new QSlider(Qt::Orientation::Horizontal);
+    minValueHBLayout->addWidget(minEdgeSlider);
+
+    auto minValueLineEdit = new QLineEdit();
+    // TODO get rid of magic numbers
+    minValueLineEdit->setMaximumWidth(30);
+    minValueHBLayout->addWidget(minValueLineEdit);
+
+    cannyEdgeVBLayout->addLayout(minValueHBLayout);
+
+    // Max Value
+    auto maxValueHBLayout = new QHBoxLayout();
+
+    auto maxValueLabel = new QLabel("100");
+    maxValueHBLayout->addWidget(maxValueLabel);
+
+    auto maxEdgeSlider = new QSlider(Qt::Orientation::Horizontal);
+    maxValueHBLayout->addWidget(maxEdgeSlider);
+    cannyEdgeVBLayout->addLayout(maxValueHBLayout);
+
+    auto maxValueLineEdit = new QLineEdit();
+    // TODO get rid of magic numbers
+    maxValueLineEdit->setMaximumWidth(30);
+    maxValueHBLayout->addWidget(maxValueLineEdit);
+
+    openCVTabLayout->addWidget(cannyEdgeGBox);
+    // TODO get rid of magic numbers
+    cannyEdgeGBox->setMinimumHeight(175);
 }
 
 void OptionWidget::setupComputerVisionTab()
