@@ -25,6 +25,7 @@ public slots:
     void fitInViewStateChanged();
     void editModeEnabler();
     void saveChanges();
+    void applyEdgeCanny();
 
 private:
     Ui::OptionWidget* ui;

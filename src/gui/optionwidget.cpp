@@ -1,4 +1,5 @@
 #include "optionwidget.h"
+#include "../app/openCVOperations.h"
 #include "ui_optionwidget.h"
 
 #include <QDebug>
@@ -31,6 +32,8 @@ OptionWidget::OptionWidget(ImageViewer* imageViewer, QWidget* parent)
     connect(buttonSaveChangesBasicTab, &QPushButton::pressed, this, &OptionWidget::saveChanges);
     connect(buttonSaveChangesOpenCVTab, &QPushButton::pressed, this, &OptionWidget::saveChanges);
     connect(buttonSaveChangesComputerVisionTab, &QPushButton::pressed, this, &OptionWidget::saveChanges);
+
+    connect(cannyEdgeCheckBox, &QCheckBox::stateChanged, this, &OptionWidget::applyEdgeCanny);
 }
 
 OptionWidget::~OptionWidget()
@@ -140,4 +143,17 @@ void OptionWidget::editModeEnabler()
 void OptionWidget::saveChanges()
 {
     qInfo() << "Save Changes";
+}
+
+void OptionWidget::applyEdgeCanny()
+{
+    if (instanceOfImageViewer->hasPhoto() && cannyEdgeCheckBox->checkState() == Qt::CheckState::Checked) {
+        auto openCVOperations = new OpenCVOperations(instanceOfImageViewer->getPhoto());
+        QImage image = openCVOperations->cannyEdgeDetectionQ(20, 50);
+        //openCVOperations->cannyEdgeDetection(20, 50);
+        instanceOfImageViewer->setPhoto(image, Qt::AspectRatioMode::IgnoreAspectRatio);
+        //printf(instanceOfImageViewer->hasPhoto() ? "true" : "false");
+    } else {
+        qInfo() << "Canny Edge Unchecked";
+    }
 }
