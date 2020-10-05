@@ -1,11 +1,14 @@
 #ifndef OPTIONWIDGET_H
 #define OPTIONWIDGET_H
 
+#include "../app/openCVOperations.h"
 #include "imageviewer.h"
 
 #include <QCheckBox>
 #include <QLabel>
+#include <QLineEdit>
 #include <QPushButton>
+#include <QSlider>
 #include <QTabWidget>
 
 namespace Ui {
@@ -26,8 +29,14 @@ public slots:
     void editModeEnabler();
     void saveChanges();
     void applyEdgeCanny();
+    void setMinValueEdge();
+    void setMinValueEdgeFromLineEdit();
+    void setMaxValueEdge();
+    void setMaxValueEdgeFromLineEdit();
 
 private:
+    void performEdgeDetectionOperation(OpenCVOperations* operations);
+
     Ui::OptionWidget* ui;
 
     QWidget* baseTab;
@@ -45,8 +54,19 @@ private:
     QPushButton* buttonSaveChangesComputerVisionTab;
 
     // OpenCV Operation
-    //Edge detection Slider ?
+    //Edge Detection
     QCheckBox* cannyEdgeCheckBox;
+    QLabel* minValueLabel;
+    QSlider* minEdgeSlider;
+    int minValueOfSlider { 10 };
+    int maxValueOfSlider { 60 };
+    QLineEdit* minValueLineEdit;
+    double minThreshholdEdgeCunny;
+
+    QLabel* maxValueLabel;
+    QSlider* maxEdgeSlider;
+    QLineEdit* maxValueLineEdit;
+    double maxThreshholdEdgeCunny;
     // Image Rotation Two Buttons with arrows
     // Image Translation Matrix of translation? Dragable Contours of image or corners?
     // Adaptive Threshgholding Slider + Push Button

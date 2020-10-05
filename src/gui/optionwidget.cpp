@@ -1,13 +1,10 @@
 #include "optionwidget.h"
-#include "../app/openCVOperations.h"
 #include "ui_optionwidget.h"
 
 #include <QDebug>
 #include <QFileInfo>
 #include <QGroupBox>
 #include <QHBoxLayout>
-#include <QLineEdit>
-#include <QSlider>
 #include <QVBoxLayout>
 
 OptionWidget::OptionWidget(ImageViewer* imageViewer, QWidget* parent)
@@ -37,6 +34,10 @@ OptionWidget::OptionWidget(ImageViewer* imageViewer, QWidget* parent)
     connect(buttonSaveChangesComputerVisionTab, &QPushButton::pressed, this, &OptionWidget::saveChanges);
 
     connect(cannyEdgeCheckBox, &QCheckBox::stateChanged, this, &OptionWidget::applyEdgeCanny);
+    connect(minEdgeSlider, &QSlider::valueChanged, this, &OptionWidget::setMinValueEdge);
+    connect(minValueLineEdit, &QLineEdit::editingFinished, this, &OptionWidget::setMinValueEdgeFromLineEdit);
+    connect(maxEdgeSlider, &QSlider::valueChanged, this, &OptionWidget::setMaxValueEdge);
+    connect(maxValueLineEdit, &QLineEdit::editingFinished, this, &OptionWidget::setMaxValueEdgeFromLineEdit);
 }
 
 OptionWidget::~OptionWidget()
@@ -99,15 +100,22 @@ void OptionWidget::setupOpenCVTab()
     // Min Value
     auto minValueHBLayout = new QHBoxLayout();
 
-    auto minValueLabel = new QLabel("0");
+    int minSizeOfLabels { 15 };
+    minValueLabel = new QLabel("0");
+    minValueLabel->setMinimumWidth(minSizeOfLabels);
     minValueHBLayout->addWidget(minValueLabel);
-    //TODO Think about separators to give more space for label
-    auto minEdgeSlider = new QSlider(Qt::Orientation::Horizontal);
+
+    minEdgeSlider = new QSlider(Qt::Orientation::Horizontal);
+
+    minThreshholdEdgeCunny = minValueOfSlider;
+    minEdgeSlider->setMinimum(minValueOfSlider);
+    minEdgeSlider->setMaximum(maxValueOfSlider);
+    minValueLabel->setText(QString::number(minEdgeSlider->value()));
     minValueHBLayout->addWidget(minEdgeSlider);
 
-    auto minValueLineEdit = new QLineEdit();
-    // TODO get rid of magic numbers
-    minValueLineEdit->setMaximumWidth(30);
+    minValueLineEdit = new QLineEdit();
+    int maxSizeOfLineEdits { 30 };
+    minValueLineEdit->setMaximumWidth(maxSizeOfLineEdits);
     minValueHBLayout->addWidget(minValueLineEdit);
 
     cannyEdgeVBLayout->addLayout(minValueHBLayout);
@@ -115,21 +123,27 @@ void OptionWidget::setupOpenCVTab()
     // Max Value
     auto maxValueHBLayout = new QHBoxLayout();
 
-    auto maxValueLabel = new QLabel("100");
+    maxValueLabel = new QLabel("100");
+    maxValueLabel->setMinimumWidth(minSizeOfLabels);
     maxValueHBLayout->addWidget(maxValueLabel);
 
-    auto maxEdgeSlider = new QSlider(Qt::Orientation::Horizontal);
+    maxEdgeSlider = new QSlider(Qt::Orientation::Horizontal);
+    // Following Canny's recomendation highThreshold = LowerThreshold * 3
+    maxThreshholdEdgeCunny = minValueOfSlider * 3;
+    maxEdgeSlider->setMinimum(minValueOfSlider * 3);
+    maxEdgeSlider->setMaximum(maxValueOfSlider * 3);
+    maxValueLabel->setText(QString::number(maxEdgeSlider->value()));
     maxValueHBLayout->addWidget(maxEdgeSlider);
-    cannyEdgeVBLayout->addLayout(maxValueHBLayout);
 
-    auto maxValueLineEdit = new QLineEdit();
-    // TODO get rid of magic numbers
-    maxValueLineEdit->setMaximumWidth(30);
+    maxValueLineEdit = new QLineEdit();
+    maxValueLineEdit->setMaximumWidth(maxSizeOfLineEdits);
     maxValueHBLayout->addWidget(maxValueLineEdit);
 
+    cannyEdgeVBLayout->addLayout(maxValueHBLayout);
+
     openCVTabLayout->addWidget(cannyEdgeGBox);
-    // TODO get rid of magic numbers
-    cannyEdgeGBox->setMinimumHeight(175);
+    int minSizeOfCannyEdgeGBox { 175 };
+    cannyEdgeGBox->setMinimumHeight(minSizeOfCannyEdgeGBox);
 }
 
 void OptionWidget::setupComputerVisionTab()
@@ -184,13 +198,61 @@ void OptionWidget::saveChanges()
 
 void OptionWidget::applyEdgeCanny()
 {
+    auto originalImage = instanceOfImageViewer->getPhoto();
+    auto openCVOperations = new OpenCVOperations(originalImage);
     if (instanceOfImageViewer->hasPhoto() && cannyEdgeCheckBox->checkState() == Qt::CheckState::Checked) {
-        auto openCVOperations = new OpenCVOperations(instanceOfImageViewer->getPhoto());
-        QImage image = openCVOperations->cannyEdgeDetectionQ(20, 50);
-        //openCVOperations->cannyEdgeDetection(20, 50);
-        instanceOfImageViewer->setPhoto(image, Qt::AspectRatioMode::IgnoreAspectRatio);
-        //printf(instanceOfImageViewer->hasPhoto() ? "true" : "false");
+        performEdgeDetectionOperation(openCVOperations);
     } else {
         qInfo() << "Canny Edge Unchecked";
+        // TODO check Why not working
+        instanceOfImageViewer->setPhoto(originalImage, Qt::AspectRatioMode::KeepAspectRatio);
     }
+}
+
+void OptionWidget::setMinValueEdge()
+{
+    minValueLabel->setText(QString::number(minEdgeSlider->value()));
+    minThreshholdEdgeCunny = static_cast<double>(minEdgeSlider->value());
+}
+
+void OptionWidget::setMinValueEdgeFromLineEdit()
+{
+    int lowThreshold = minValueLineEdit->text().toInt();
+    bool isMinValueInRange = minValueOfSlider < lowThreshold && lowThreshold < maxValueOfSlider;
+    if (!minValueLineEdit->text().isEmpty() && isMinValueInRange) {
+        minValueLabel->setText(minValueLineEdit->text());
+        minThreshholdEdgeCunny = lowThreshold;
+        minEdgeSlider->setSliderPosition(lowThreshold);
+        minThreshholdEdgeCunny = lowThreshold;
+    } else {
+        qInfo() << "Min Value Line Edit Empty or out of allowed range";
+    }
+}
+
+void OptionWidget::setMaxValueEdge()
+{
+    maxValueLabel->setText(QString::number(maxEdgeSlider->value()));
+    maxThreshholdEdgeCunny = static_cast<double>(maxEdgeSlider->value());
+}
+
+void OptionWidget::setMaxValueEdgeFromLineEdit()
+{
+    int highThreshold = maxValueLineEdit->text().toInt();
+    // Following Canny's recomendation highThreshold = LowerThreshold * 3
+    bool isMaxValueInRange = minValueOfSlider * 3 < highThreshold && highThreshold < maxValueOfSlider * 3;
+    if (!maxValueLineEdit->text().isEmpty() && isMaxValueInRange) {
+        maxValueLabel->setText(maxValueLineEdit->text());
+        maxThreshholdEdgeCunny = highThreshold;
+        maxEdgeSlider->setSliderPosition(highThreshold);
+        maxThreshholdEdgeCunny = highThreshold;
+    } else {
+        qInfo() << "Max Value Line Edit Empty or out of allowed range";
+    }
+}
+
+void OptionWidget::performEdgeDetectionOperation(OpenCVOperations* operations)
+{
+    instanceOfImageViewer->setPhoto(
+        operations->cannyEdgeDetectionQ(minThreshholdEdgeCunny, maxThreshholdEdgeCunny),
+        Qt::AspectRatioMode::KeepAspectRatio);
 }

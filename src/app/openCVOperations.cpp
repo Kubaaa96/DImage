@@ -19,6 +19,11 @@ QImage OpenCVOperations::cannyEdgeDetectionQ(double minThreshhold, double maxThr
     return toImage(cannyEdgeDetection(minThreshhold, maxThreshhold), QImage::Format_Grayscale8);
 }
 
+QImage OpenCVOperations::getOriginalPhoto()
+{
+    return originalPhoto;
+}
+
 QImage OpenCVOperations::toImage(cv::Mat& cvImage, QImage::Format format)
 {
     return QImage(cvImage.data, cvImage.cols, cvImage.rows, cvImage.step, format);

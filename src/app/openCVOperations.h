@@ -12,6 +12,7 @@ public:
     ~OpenCVOperations() = default;
     cv::Mat cannyEdgeDetection(double minThreshhold, double maxThreshhold);
     QImage cannyEdgeDetectionQ(double minThreshhold, double maxThreshhold);
+    QImage getOriginalPhoto();
 
 private:
     cv::Mat photoToEdit;

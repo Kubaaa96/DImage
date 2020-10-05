@@ -2,5 +2,6 @@
     <qresource prefix="/mainWindow">
         <file>arrowRight.png</file>
         <file>ArrowLeft.png</file>
+        <file>acceptIcon.ico</file>
     </qresource>
 </RCC>
