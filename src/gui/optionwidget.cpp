@@ -1,6 +1,7 @@
 #include "optionwidget.h"
 #include "ui_optionwidget.h"
 
+#include <QComboBox>
 #include <QDebug>
 #include <QFileInfo>
 #include <QGroupBox>
@@ -149,9 +150,40 @@ void OptionWidget::setupOpenCVTab()
     cannyEdgeGBox->setMinimumHeight(minSizeOfCannyEdgeGBox);
     openCVTabLayout->addWidget(cannyEdgeGBox);
 
-    //Rotate Stuff
+    // Rotate Group Box
     testRotate = new QPushButton("Test Rotate");
     openCVTabLayout->addWidget(testRotate);
+
+    auto rotatingGBox = new QGroupBox("Rotating controls");
+    auto rotatingVBLayout = new QVBoxLayout(rotatingGBox);
+
+    // Main Controll
+    auto rotatingMainControlHBLayout = new QHBoxLayout();
+    rotationStyleComboB = new QComboBox();
+    rotatingMainControlHBLayout->addWidget(rotationStyleComboB);
+
+    // Labels
+    auto rotatingValuesLabelsVBLayout = new QVBoxLayout();
+    rotationDegreeLabel = new QLabel("0 Degree");
+    rotatingValuesLabelsVBLayout->addWidget(rotationDegreeLabel);
+    rotationRadiansLabel = new QLabel("0 Radians");
+    rotatingValuesLabelsVBLayout->addWidget(rotationRadiansLabel);
+    rotatingMainControlHBLayout->addLayout(rotatingValuesLabelsVBLayout);
+
+    rotationLineEdit = new QLineEdit();
+    auto rotationLineEditWidth { 30 };
+    rotationLineEdit->setMaximumWidth(rotationLineEditWidth);
+    rotatingMainControlHBLayout->addWidget(rotationLineEdit);
+    acceptRotationFromLineEditButton = new QPushButton(QIcon(":/mainWindow/acceptIcon.ico"), "");
+    rotatingMainControlHBLayout->addWidget(acceptRotationFromLineEditButton);
+    rotatingVBLayout->addLayout(rotatingMainControlHBLayout);
+
+    //Rotation Control
+    // QDial Wrapping
+
+    // QDial Not Wrapping
+    // Buttons with step control spin box ?
+    openCVTabLayout->addWidget(rotatingGBox);
 }
 
 void OptionWidget::setupComputerVisionTab()

@@ -74,6 +74,11 @@ private:
 
     // Image Rotation Two Buttons with arrows or circle slider
     QPushButton* testRotate;
+    QComboBox* rotationStyleComboB;
+    QLabel* rotationDegreeLabel;
+    QLabel* rotationRadiansLabel;
+    QLineEdit* rotationLineEdit;
+    QPushButton* acceptRotationFromLineEditButton;
 
     // Image Translation Matrix of translation? Dragable Contours of image or corners?
     // Adaptive Threshgholding Slider + Push Button

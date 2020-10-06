@@ -36,7 +36,7 @@ cv::Mat OpenCVOperations::rotateImage(double angle)
     cv::Mat rotationMatrix = cv::getRotationMatrix2D(center, angle, 1);
     cv::warpAffine(resizedImage, resizedImage, rotationMatrix, resizedImage.size());
     cv::cvtColor(resizedImage, resizedImage, cv::COLOR_RGBA2RGB);
-    qInfo() << QString::fromStdString(getImageType(resizedImage.type()));
+    //qInfo() << QString::fromStdString(getImageType(resizedImage.type()));
     return resizedImage;
 }
 
