@@ -5,10 +5,12 @@
 #include "imageviewer.h"
 
 #include <QCheckBox>
+#include <QDial>
 #include <QLabel>
 #include <QLineEdit>
 #include <QPushButton>
 #include <QSlider>
+#include <QSpinBox>
 #include <QTabWidget>
 
 namespace Ui {
@@ -79,6 +81,10 @@ private:
     QLabel* rotationRadiansLabel;
     QLineEdit* rotationLineEdit;
     QPushButton* acceptRotationFromLineEditButton;
+    QDial* rotationWrappingDial;
+    QPushButton* rotationButtonLeft;
+    QPushButton* rotationButtonRight;
+    QSpinBox* rotationButtonStepSpinBox;
 
     // Image Translation Matrix of translation? Dragable Contours of image or corners?
     // Adaptive Threshgholding Slider + Push Button

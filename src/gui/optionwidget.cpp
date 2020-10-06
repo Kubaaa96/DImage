@@ -162,27 +162,48 @@ void OptionWidget::setupOpenCVTab()
     rotationStyleComboB = new QComboBox();
     rotatingMainControlHBLayout->addWidget(rotationStyleComboB);
 
-    // Labels
-    auto rotatingValuesLabelsVBLayout = new QVBoxLayout();
-    rotationDegreeLabel = new QLabel("0 Degree");
-    rotatingValuesLabelsVBLayout->addWidget(rotationDegreeLabel);
-    rotationRadiansLabel = new QLabel("0 Radians");
-    rotatingValuesLabelsVBLayout->addWidget(rotationRadiansLabel);
-    rotatingMainControlHBLayout->addLayout(rotatingValuesLabelsVBLayout);
-
     rotationLineEdit = new QLineEdit();
-    auto rotationLineEditWidth { 30 };
+    auto rotationLineEditWidth { 35 };
     rotationLineEdit->setMaximumWidth(rotationLineEditWidth);
     rotatingMainControlHBLayout->addWidget(rotationLineEdit);
     acceptRotationFromLineEditButton = new QPushButton(QIcon(":/mainWindow/acceptIcon.ico"), "");
+    auto rotationAcceptButtonWidth { 30 };
+    acceptRotationFromLineEditButton->setMaximumWidth(rotationAcceptButtonWidth);
     rotatingMainControlHBLayout->addWidget(acceptRotationFromLineEditButton);
     rotatingVBLayout->addLayout(rotatingMainControlHBLayout);
 
     //Rotation Control
     // QDial Wrapping
+    rotationWrappingDial = new QDial();
+    rotationWrappingDial->setWrapping(true);
+    rotatingVBLayout->addWidget(rotationWrappingDial);
 
-    // QDial Not Wrapping
     // Buttons with step control spin box ?
+    auto rotatingButtonsVBLayout = new QVBoxLayout();
+    auto rotatingButtonsControlHBLayout = new QHBoxLayout();
+    rotationButtonLeft = new QPushButton(QIcon(":/mainWindow/rotatingLeftIcon.png"), "");
+    rotationButtonLeft->setMinimumHeight(75);
+    rotationButtonLeft->setIconSize(QSize(75, 75));
+    rotatingButtonsControlHBLayout->addWidget(rotationButtonLeft);
+    rotationButtonRight = new QPushButton(QIcon(":/mainWindow/rotatingRightIcon.png"), "");
+    rotationButtonRight->setMinimumHeight(75);
+    rotationButtonRight->setIconSize(QSize(75, 75));
+    rotatingButtonsControlHBLayout->addWidget(rotationButtonRight);
+    rotatingButtonsVBLayout->addLayout(rotatingButtonsControlHBLayout);
+    rotationButtonStepSpinBox = new QSpinBox();
+    rotationButtonStepSpinBox->setValue(5);
+    rotatingButtonsVBLayout->addWidget(rotationButtonStepSpinBox);
+    rotatingVBLayout->addLayout(rotatingButtonsVBLayout);
+
+    // Labels
+    auto rotatingValuesLabelsHBLayout = new QHBoxLayout();
+    rotationDegreeLabel = new QLabel("0 Degree");
+    rotatingValuesLabelsHBLayout->addWidget(rotationDegreeLabel);
+    rotationRadiansLabel = new QLabel("0 Radians");
+    rotatingValuesLabelsHBLayout->addWidget(rotationRadiansLabel);
+    rotatingVBLayout->addLayout(rotatingValuesLabelsHBLayout);
+
+    //rotationWrappingDial->hide();
     openCVTabLayout->addWidget(rotatingGBox);
 }
 
