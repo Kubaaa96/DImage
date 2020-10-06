@@ -14,14 +14,14 @@ cv::Mat OpenCVOperations::cannyEdgeDetection(double minThreshhold, double maxThr
     //qInfo() << originalPhotoFormat;
 }
 
-QImage OpenCVOperations::cannyEdgeDetectionQ(double minThreshhold, double maxThreshhold)
+QImage OpenCVOperations::cannyEdgeDetectionQt(double minThreshhold, double maxThreshhold)
 {
     return toImage(cannyEdgeDetection(minThreshhold, maxThreshhold), QImage::Format_Grayscale8);
 }
 
-QImage OpenCVOperations::getOriginalPhoto()
+void OpenCVOperations::setOriginalPhoto(QImage image)
 {
-    return originalPhoto;
+    originalPhoto = image;
 }
 
 QImage OpenCVOperations::toImage(cv::Mat& cvImage, QImage::Format format)

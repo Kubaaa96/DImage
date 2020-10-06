@@ -8,11 +8,13 @@
 class OpenCVOperations {
 
 public:
-    explicit OpenCVOperations(QImage imageToEdit);
+    explicit OpenCVOperations(QImage imageToEdit = QImage());
     ~OpenCVOperations() = default;
     cv::Mat cannyEdgeDetection(double minThreshhold, double maxThreshhold);
-    QImage cannyEdgeDetectionQ(double minThreshhold, double maxThreshhold);
-    QImage getOriginalPhoto();
+    QImage cannyEdgeDetectionQt(double minThreshhold, double maxThreshhold);
+    cv::Mat rotateImage();
+    QImage rotateImageQt();
+    void setOriginalPhoto(QImage image);
 
 private:
     cv::Mat photoToEdit;

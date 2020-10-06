@@ -27,6 +27,8 @@ OptionWidget::OptionWidget(ImageViewer* imageViewer, QWidget* parent)
     addTab(openCVTab, "OpenCV");
     addTab(computerVisionTab, "Computer Vision");
 
+    setTabsEnabled(false);
+
     connect(fitInViewCheckBox, &QCheckBox::stateChanged, this, &OptionWidget::fitInViewStateChanged);
     connect(editModeCheckBox, &QCheckBox::stateChanged, this, &OptionWidget::editModeEnabler);
     connect(buttonSaveChangesBasicTab, &QPushButton::pressed, this, &OptionWidget::saveChanges);
@@ -84,6 +86,7 @@ void OptionWidget::setupBaseTab()
 
 void OptionWidget::setupOpenCVTab()
 {
+    openCVOperations = new OpenCVOperations();
     auto openCVTabLayout = new QVBoxLayout(openCVTab);
 
     buttonSaveChangesOpenCVTab = new QPushButton("Save Changes");
@@ -172,7 +175,7 @@ void OptionWidget::fitInViewStateChanged()
         if (fitInViewCheckBox->checkState() == Qt::CheckState::Checked) {
             instanceOfImageViewer->fitInView(instanceOfImageViewer->getPhotoAsGraphicsPixmapItem());
         } else {
-            // Original resolution or separate button to do that?
+            // Original resolution or diffrent button to do that?
             instanceOfImageViewer->setPhoto(instanceOfImageViewer->getPhoto(), Qt::AspectRatioMode::KeepAspectRatio);
         }
     } else {
@@ -182,12 +185,10 @@ void OptionWidget::fitInViewStateChanged()
 
 void OptionWidget::editModeEnabler()
 {
-    if (editModeCheckBox->checkState() == Qt::CheckState::Checked) {
-        setTabEnabled(tabNameId::OpenCV, false);
-        setTabEnabled(tabNameId::ComputerVision, false);
+    if (editModeCheckBox->checkState() == Qt::CheckState::Unchecked) {
+        setTabsEnabled(false);
     } else {
-        setTabEnabled(tabNameId::OpenCV, true);
-        setTabEnabled(tabNameId::ComputerVision, true);
+        setTabsEnabled(true);
     }
 }
 
@@ -199,7 +200,7 @@ void OptionWidget::saveChanges()
 void OptionWidget::applyEdgeCanny()
 {
     auto originalImage = instanceOfImageViewer->getPhoto();
-    auto openCVOperations = new OpenCVOperations(originalImage);
+    openCVOperations->setOriginalPhoto(originalImage);
     if (instanceOfImageViewer->hasPhoto() && cannyEdgeCheckBox->checkState() == Qt::CheckState::Checked) {
         performEdgeDetectionOperation(openCVOperations);
     } else {
@@ -253,6 +254,12 @@ void OptionWidget::setMaxValueEdgeFromLineEdit()
 void OptionWidget::performEdgeDetectionOperation(OpenCVOperations* operations)
 {
     instanceOfImageViewer->setPhoto(
-        operations->cannyEdgeDetectionQ(minThreshholdEdgeCunny, maxThreshholdEdgeCunny),
+        operations->cannyEdgeDetectionQt(minThreshholdEdgeCunny, maxThreshholdEdgeCunny),
         Qt::AspectRatioMode::KeepAspectRatio);
+}
+
+void OptionWidget::setTabsEnabled(bool enable)
+{
+    setTabEnabled(tabNameId::OpenCV, enable);
+    setTabEnabled(tabNameId::ComputerVision, enable);
 }

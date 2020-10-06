@@ -35,7 +35,10 @@ public slots:
     void setMaxValueEdgeFromLineEdit();
 
 private:
+    OpenCVOperations* openCVOperations;
     void performEdgeDetectionOperation(OpenCVOperations* operations);
+
+    void setTabsEnabled(bool enable);
 
     Ui::OptionWidget* ui;
 
