@@ -14,7 +14,7 @@ public:
     QImage cannyEdgeDetectionQt(double minThreshhold, double maxThreshhold);
     cv::Mat rotateImage(double angle);
     QImage rotateImageQt(double angle);
-    void setOriginalPhoto(QImage image);
+    void setOriginalPhoto(QImage& image);
 
 private:
     cv::Mat photoToEdit;

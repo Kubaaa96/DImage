@@ -37,6 +37,13 @@ public slots:
     void setMaxValueEdgeFromLineEdit();
     void applyRotation();
 
+    // Rotation Slots
+
+    void rotateFromLineEdit();
+    void rotateFromDial();
+    void rotateLeftButton();
+    void rotateRightButton();
+
 private:
     OpenCVOperations* openCVOperations;
     void performEdgeDetectionOperation(OpenCVOperations* operations);
@@ -82,6 +89,7 @@ private:
     QLineEdit* rotationLineEdit;
     QPushButton* acceptRotationFromLineEditButton;
     QDial* rotationWrappingDial;
+    QWidget* rotatingButtonsWidget;
     QPushButton* rotationButtonLeft;
     QPushButton* rotationButtonRight;
     QSpinBox* rotationButtonStepSpinBox;
@@ -103,10 +111,18 @@ private:
     void setupOpenCVTab();
     void setupComputerVisionTab();
 
+    void setupRotationLabels(double angle);
+    void applyRotationToImage(double angle);
+    void chooseRotationStyle(int index);
+
     enum tabNameId {
         Base,
         OpenCV,
         ComputerVision
+    };
+    enum rotationStyle {
+        Dial,
+        Buttons
     };
 };
 

@@ -1,4 +1,5 @@
 #include "optionwidget.h"
+#include "imagecontainer.h"
 #include "ui_optionwidget.h"
 
 #include <QComboBox>
@@ -7,6 +8,7 @@
 #include <QGroupBox>
 #include <QHBoxLayout>
 #include <QVBoxLayout>
+#include <QtMath>
 
 OptionWidget::OptionWidget(ImageViewer* imageViewer, QWidget* parent)
     : instanceOfImageViewer(imageViewer)
@@ -43,6 +45,10 @@ OptionWidget::OptionWidget(ImageViewer* imageViewer, QWidget* parent)
     connect(maxValueLineEdit, &QLineEdit::editingFinished, this, &OptionWidget::setMaxValueEdgeFromLineEdit);
 
     connect(testRotate, &QPushButton::pressed, this, &OptionWidget::applyRotation);
+    connect(rotationStyleComboB, QOverload<int>::of(&QComboBox::currentIndexChanged),
+        [=](int index) { chooseRotationStyle(index); });
+    connect(acceptRotationFromLineEditButton, &QPushButton::pressed, this, &OptionWidget::rotateFromLineEdit);
+    connect(rotationWrappingDial, &QDial::valueChanged, this, &OptionWidget::rotateFromDial);
 }
 
 OptionWidget::~OptionWidget()
@@ -160,11 +166,15 @@ void OptionWidget::setupOpenCVTab()
     // Main Controll
     auto rotatingMainControlHBLayout = new QHBoxLayout();
     rotationStyleComboB = new QComboBox();
+    rotationStyleComboB->addItem("Dial");
+    rotationStyleComboB->addItem("Buttons");
+
     rotatingMainControlHBLayout->addWidget(rotationStyleComboB);
 
     rotationLineEdit = new QLineEdit();
     auto rotationLineEditWidth { 35 };
     rotationLineEdit->setMaximumWidth(rotationLineEditWidth);
+    rotationLineEdit->setText("0");
     rotatingMainControlHBLayout->addWidget(rotationLineEdit);
     acceptRotationFromLineEditButton = new QPushButton(QIcon(":/mainWindow/acceptIcon.ico"), "");
     auto rotationAcceptButtonWidth { 30 };
@@ -176,24 +186,30 @@ void OptionWidget::setupOpenCVTab()
     // QDial Wrapping
     rotationWrappingDial = new QDial();
     rotationWrappingDial->setWrapping(true);
+    auto maxValueofRotationDial { 360 };
+    rotationWrappingDial->setMaximum(maxValueofRotationDial);
     rotatingVBLayout->addWidget(rotationWrappingDial);
 
     // Buttons with step control spin box ?
-    auto rotatingButtonsVBLayout = new QVBoxLayout();
+    rotatingButtonsWidget = new QWidget();
+    auto rotatingButtonsVBLayout = new QVBoxLayout(rotatingButtonsWidget);
     auto rotatingButtonsControlHBLayout = new QHBoxLayout();
     rotationButtonLeft = new QPushButton(QIcon(":/mainWindow/rotatingLeftIcon.png"), "");
-    rotationButtonLeft->setMinimumHeight(75);
-    rotationButtonLeft->setIconSize(QSize(75, 75));
+    auto rotationButtonsMinimumHeight { 75 };
+    rotationButtonLeft->setMinimumHeight(rotationButtonsMinimumHeight);
+    const QSize defaultButtonIconSize { 75, 75 };
+    rotationButtonLeft->setIconSize(defaultButtonIconSize);
     rotatingButtonsControlHBLayout->addWidget(rotationButtonLeft);
     rotationButtonRight = new QPushButton(QIcon(":/mainWindow/rotatingRightIcon.png"), "");
-    rotationButtonRight->setMinimumHeight(75);
-    rotationButtonRight->setIconSize(QSize(75, 75));
+    rotationButtonRight->setMinimumHeight(rotationButtonsMinimumHeight);
+    rotationButtonRight->setIconSize(defaultButtonIconSize);
     rotatingButtonsControlHBLayout->addWidget(rotationButtonRight);
     rotatingButtonsVBLayout->addLayout(rotatingButtonsControlHBLayout);
     rotationButtonStepSpinBox = new QSpinBox();
-    rotationButtonStepSpinBox->setValue(5);
+    auto defaultValueOfRotationSpinBox { 5 };
+    rotationButtonStepSpinBox->setValue(defaultValueOfRotationSpinBox);
     rotatingButtonsVBLayout->addWidget(rotationButtonStepSpinBox);
-    rotatingVBLayout->addLayout(rotatingButtonsVBLayout);
+    rotatingVBLayout->addWidget(rotatingButtonsWidget);
 
     // Labels
     auto rotatingValuesLabelsHBLayout = new QHBoxLayout();
@@ -203,7 +219,7 @@ void OptionWidget::setupOpenCVTab()
     rotatingValuesLabelsHBLayout->addWidget(rotationRadiansLabel);
     rotatingVBLayout->addLayout(rotatingValuesLabelsHBLayout);
 
-    //rotationWrappingDial->hide();
+    rotatingButtonsWidget->hide();
     openCVTabLayout->addWidget(rotatingGBox);
 }
 
@@ -317,6 +333,29 @@ void OptionWidget::applyRotation()
     instanceOfImageViewer->setPhoto(tempImage, Qt::AspectRatioMode::KeepAspectRatio);
 }
 
+void OptionWidget::rotateFromLineEdit()
+{
+    //qInfo() << rotationLineEdit->text();
+    auto angleFromRotationLineEdit = rotationLineEdit->text().toDouble();
+    setupRotationLabels(angleFromRotationLineEdit);
+    applyRotationToImage(angleFromRotationLineEdit);
+}
+
+void OptionWidget::rotateFromDial()
+{
+    //qInfo() << QString::number(rotationWrappingDial->value());
+    rotationLineEdit->setText(QString::number(rotationWrappingDial->value()));
+    //applyRotationToImage(static_cast<double>(rotationWrappingDial->value()));
+}
+
+void OptionWidget::rotateLeftButton()
+{
+}
+
+void OptionWidget::rotateRightButton()
+{
+}
+
 void OptionWidget::performEdgeDetectionOperation(OpenCVOperations* operations)
 {
     instanceOfImageViewer->setPhoto(
@@ -328,4 +367,30 @@ void OptionWidget::setTabsEnabled(bool enable)
 {
     setTabEnabled(tabNameId::OpenCV, enable);
     setTabEnabled(tabNameId::ComputerVision, enable);
+}
+
+void OptionWidget::setupRotationLabels(double angle)
+{
+    rotationDegreeLabel->setText(QString::number(angle) + " Degree");
+    rotationRadiansLabel->setText(QString::number(qDegreesToRadians(angle)) + " Radians");
+}
+
+void OptionWidget::applyRotationToImage(double angle)
+{
+    if (instanceOfImageViewer->hasPhoto()) {
+        QImage currentPhoto = instanceOfImageViewer->getPhoto();
+        openCVOperations->setOriginalPhoto(currentPhoto);
+        instanceOfImageViewer->setPhoto(openCVOperations->rotateImageQt(angle), Qt::AspectRatioMode::KeepAspectRatio);
+    }
+}
+
+void OptionWidget::chooseRotationStyle(int index)
+{
+    if (index == rotationStyle::Dial) {
+        rotationWrappingDial->show();
+        rotatingButtonsWidget->hide();
+    } else {
+        rotationWrappingDial->hide();
+        rotatingButtonsWidget->show();
+    }
 }

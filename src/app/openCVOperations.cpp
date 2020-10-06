@@ -45,7 +45,7 @@ QImage OpenCVOperations::rotateImageQt(double angle)
     return toImage(rotateImage(angle), QImage::Format_RGB888).rgbSwapped();
 }
 
-void OpenCVOperations::setOriginalPhoto(QImage image)
+void OpenCVOperations::setOriginalPhoto(QImage& image)
 {
     originalPhoto = image;
 }

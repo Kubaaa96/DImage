@@ -94,7 +94,8 @@ void ImageContainer::clickOnItem()
 
 void ImageContainer::settingPhotoToMainImageViewer()
 {
-    instanceOfImageViewer->setPhoto(vectorOfImages->at(this->selectionModel()->selectedIndexes().first().row()), Qt::AspectRatioMode::KeepAspectRatio);
+    auto currentPhoto = vectorOfImages->at(selectionModel()->selectedIndexes().first().row());
+    instanceOfImageViewer->setPhoto(currentPhoto, Qt::AspectRatioMode::KeepAspectRatio);
 }
 
 void ImageContainer::ShowContextMenu(const QPoint& pos)
