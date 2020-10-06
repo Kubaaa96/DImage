@@ -40,6 +40,8 @@ OptionWidget::OptionWidget(ImageViewer* imageViewer, QWidget* parent)
     connect(minValueLineEdit, &QLineEdit::editingFinished, this, &OptionWidget::setMinValueEdgeFromLineEdit);
     connect(maxEdgeSlider, &QSlider::valueChanged, this, &OptionWidget::setMaxValueEdge);
     connect(maxValueLineEdit, &QLineEdit::editingFinished, this, &OptionWidget::setMaxValueEdgeFromLineEdit);
+
+    connect(testRotate, &QPushButton::pressed, this, &OptionWidget::applyRotation);
 }
 
 OptionWidget::~OptionWidget()
@@ -143,10 +145,13 @@ void OptionWidget::setupOpenCVTab()
     maxValueHBLayout->addWidget(maxValueLineEdit);
 
     cannyEdgeVBLayout->addLayout(maxValueHBLayout);
-
-    openCVTabLayout->addWidget(cannyEdgeGBox);
     int minSizeOfCannyEdgeGBox { 175 };
     cannyEdgeGBox->setMinimumHeight(minSizeOfCannyEdgeGBox);
+    openCVTabLayout->addWidget(cannyEdgeGBox);
+
+    //Rotate Stuff
+    testRotate = new QPushButton("Test Rotate");
+    openCVTabLayout->addWidget(testRotate);
 }
 
 void OptionWidget::setupComputerVisionTab()
@@ -249,6 +254,14 @@ void OptionWidget::setMaxValueEdgeFromLineEdit()
     } else {
         qInfo() << "Max Value Line Edit Empty or out of allowed range";
     }
+}
+
+void OptionWidget::applyRotation()
+{
+    auto originalPhoto = instanceOfImageViewer->getPhoto();
+    openCVOperations->setOriginalPhoto(originalPhoto);
+    QImage tempImage = openCVOperations->rotateImageQt(-45);
+    instanceOfImageViewer->setPhoto(tempImage, Qt::AspectRatioMode::KeepAspectRatio);
 }
 
 void OptionWidget::performEdgeDetectionOperation(OpenCVOperations* operations)

@@ -33,6 +33,7 @@ public slots:
     void setMinValueEdgeFromLineEdit();
     void setMaxValueEdge();
     void setMaxValueEdgeFromLineEdit();
+    void applyRotation();
 
 private:
     OpenCVOperations* openCVOperations;
@@ -70,7 +71,10 @@ private:
     QSlider* maxEdgeSlider;
     QLineEdit* maxValueLineEdit;
     double maxThreshholdEdgeCunny;
-    // Image Rotation Two Buttons with arrows
+
+    // Image Rotation Two Buttons with arrows or circle slider
+    QPushButton* testRotate;
+
     // Image Translation Matrix of translation? Dragable Contours of image or corners?
     // Adaptive Threshgholding Slider + Push Button
     // Basic Image Segmentation Button
