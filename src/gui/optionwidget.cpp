@@ -10,6 +10,8 @@
 #include <QVBoxLayout>
 #include <QtMath>
 
+#include <functional>
+
 OptionWidget::OptionWidget(ImageViewer* imageViewer, QWidget* parent)
     : instanceOfImageViewer(imageViewer)
     , QTabWidget(parent)
@@ -49,6 +51,8 @@ OptionWidget::OptionWidget(ImageViewer* imageViewer, QWidget* parent)
         [=](int index) { chooseRotationStyle(index); });
     connect(acceptRotationFromLineEditButton, &QPushButton::pressed, this, &OptionWidget::rotateFromLineEdit);
     connect(rotationWrappingDial, &QDial::valueChanged, this, &OptionWidget::rotateFromDial);
+    connect(rotationButtonLeft, &QPushButton::pressed, this, &OptionWidget::rotateLeftButton);
+    connect(rotationButtonRight, &QPushButton::pressed, this, &OptionWidget::rotateRightButton);
 }
 
 OptionWidget::~OptionWidget()
@@ -350,10 +354,12 @@ void OptionWidget::rotateFromDial()
 
 void OptionWidget::rotateLeftButton()
 {
+    applyRotationToImage(-rotationButtonStepSpinBox->value());
 }
 
 void OptionWidget::rotateRightButton()
 {
+    applyRotationToImage(rotationButtonStepSpinBox->value());
 }
 
 void OptionWidget::performEdgeDetectionOperation(OpenCVOperations* operations)
