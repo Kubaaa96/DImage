@@ -35,7 +35,6 @@ public slots:
     void setMinValueEdgeFromLineEdit();
     void setMaxValueEdge();
     void setMaxValueEdgeFromLineEdit();
-    void applyRotation();
 
     // Rotation Slots
 
@@ -82,14 +81,13 @@ private:
     double maxThreshholdEdgeCunny;
 
     // Image Rotation Two Buttons with arrows or circle slider
-    QPushButton* testRotate;
     QComboBox* rotationStyleComboB;
     QLabel* rotationDegreeLabel;
     QLabel* rotationRadiansLabel;
     QLineEdit* rotationLineEdit;
-    QPushButton* acceptRotationFromLineEditButton;
+    QPushButton* rotationAcceptFromLineEditButton;
     QDial* rotationWrappingDial;
-    QWidget* rotatingButtonsWidget;
+    QWidget* rotationButtonsWidget;
     QPushButton* rotationButtonLeft;
     QPushButton* rotationButtonRight;
     QSpinBox* rotationButtonStepSpinBox;
