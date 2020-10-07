@@ -1,7 +1,7 @@
 #ifndef OPTIONWIDGET_H
 #define OPTIONWIDGET_H
-
 #include "../app/openCVOperations.h"
+#include "edgedetectionwidget.h"
 #include "imageviewer.h"
 
 #include <QCheckBox>
@@ -66,6 +66,7 @@ private:
     QPushButton* buttonSaveChangesComputerVisionTab;
 
     // OpenCV Operation
+    EdgeDetectionWidget* edgeDetectionWidget;
     //Edge Detection
     QCheckBox* cannyEdgeCheckBox;
     QLabel* minValueLabel;

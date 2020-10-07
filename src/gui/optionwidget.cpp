@@ -1,4 +1,5 @@
 #include "optionwidget.h"
+
 #include "imagecontainer.h"
 #include "ui_optionwidget.h"
 
@@ -39,12 +40,6 @@ OptionWidget::OptionWidget(ImageViewer* imageViewer, QWidget* parent)
     connect(buttonSaveChangesBasicTab, &QPushButton::pressed, this, &OptionWidget::saveChanges);
     connect(buttonSaveChangesOpenCVTab, &QPushButton::pressed, this, &OptionWidget::saveChanges);
     connect(buttonSaveChangesComputerVisionTab, &QPushButton::pressed, this, &OptionWidget::saveChanges);
-
-    connect(cannyEdgeCheckBox, &QCheckBox::stateChanged, this, &OptionWidget::applyEdgeCanny);
-    connect(minEdgeSlider, &QSlider::valueChanged, this, &OptionWidget::setMinValueEdge);
-    connect(minValueLineEdit, &QLineEdit::editingFinished, this, &OptionWidget::setMinValueEdgeFromLineEdit);
-    connect(maxEdgeSlider, &QSlider::valueChanged, this, &OptionWidget::setMaxValueEdge);
-    connect(maxValueLineEdit, &QLineEdit::editingFinished, this, &OptionWidget::setMaxValueEdgeFromLineEdit);
 
     connect(rotationStyleComboB, QOverload<int>::of(&QComboBox::currentIndexChanged),
         [=](int index) { chooseRotationStyle(index); });
@@ -105,59 +100,8 @@ void OptionWidget::setupOpenCVTab()
     buttonSaveChangesOpenCVTab->setMaximumHeight(maximumSizeOfSaveButton);
     openCVTabLayout->addWidget(buttonSaveChangesOpenCVTab);
 
-    // Edge Group Box
-    auto cannyEdgeGBox = new QGroupBox("Canny Edge Algorithm");
-    auto cannyEdgeVBLayout = new QVBoxLayout(cannyEdgeGBox);
-
-    cannyEdgeCheckBox = new QCheckBox("Canny Edge detector");
-    cannyEdgeVBLayout->addWidget(cannyEdgeCheckBox);
-
-    // Min Value
-    auto minValueHBLayout = new QHBoxLayout();
-
-    int minSizeOfLabels { 15 };
-    minValueLabel = new QLabel("0");
-    minValueLabel->setMinimumWidth(minSizeOfLabels);
-    minValueHBLayout->addWidget(minValueLabel);
-
-    minEdgeSlider = new QSlider(Qt::Orientation::Horizontal);
-
-    minThreshholdEdgeCunny = minValueOfSlider;
-    minEdgeSlider->setMinimum(minValueOfSlider);
-    minEdgeSlider->setMaximum(maxValueOfSlider);
-    minValueLabel->setText(QString::number(minEdgeSlider->value()));
-    minValueHBLayout->addWidget(minEdgeSlider);
-
-    minValueLineEdit = new QLineEdit();
-    int maxSizeOfLineEdits { 30 };
-    minValueLineEdit->setMaximumWidth(maxSizeOfLineEdits);
-    minValueHBLayout->addWidget(minValueLineEdit);
-
-    cannyEdgeVBLayout->addLayout(minValueHBLayout);
-
-    // Max Value
-    auto maxValueHBLayout = new QHBoxLayout();
-
-    maxValueLabel = new QLabel("100");
-    maxValueLabel->setMinimumWidth(minSizeOfLabels);
-    maxValueHBLayout->addWidget(maxValueLabel);
-
-    maxEdgeSlider = new QSlider(Qt::Orientation::Horizontal);
-    // Following Canny's recomendation highThreshold = LowerThreshold * 3
-    maxThreshholdEdgeCunny = minValueOfSlider * 3;
-    maxEdgeSlider->setMinimum(minValueOfSlider * 3);
-    maxEdgeSlider->setMaximum(maxValueOfSlider * 3);
-    maxValueLabel->setText(QString::number(maxEdgeSlider->value()));
-    maxValueHBLayout->addWidget(maxEdgeSlider);
-
-    maxValueLineEdit = new QLineEdit();
-    maxValueLineEdit->setMaximumWidth(maxSizeOfLineEdits);
-    maxValueHBLayout->addWidget(maxValueLineEdit);
-
-    cannyEdgeVBLayout->addLayout(maxValueHBLayout);
-    int minSizeOfCannyEdgeGBox { 175 };
-    cannyEdgeGBox->setMinimumHeight(minSizeOfCannyEdgeGBox);
-    openCVTabLayout->addWidget(cannyEdgeGBox);
+    edgeDetectionWidget = new EdgeDetectionWidget(instanceOfImageViewer);
+    openCVTabLayout->addWidget(edgeDetectionWidget);
 
     // Rotate Group Box
     auto rotationGBox = new QGroupBox("Rotating controls");
