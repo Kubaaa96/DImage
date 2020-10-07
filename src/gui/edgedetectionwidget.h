@@ -31,6 +31,7 @@ public slots:
 private:
     void connectGUIElements();
     ImageViewer* instanceOfImageViewer;
+
     Ui::EdgeDetectionWidget* ui;
 
     QVBoxLayout* mainVBLayout;

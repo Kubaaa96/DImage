@@ -2,16 +2,12 @@
 #define OPTIONWIDGET_H
 #include "../app/openCVOperations.h"
 #include "edgedetectionwidget.h"
+#include "imagerotationwidget.h"
 #include "imageviewer.h"
 
 #include <QCheckBox>
-#include <QDial>
 #include <QLabel>
-#include <QLineEdit>
 #include <QPushButton>
-#include <QSlider>
-#include <QSpinBox>
-#include <QTabWidget>
 
 namespace Ui {
 class OptionWidget;
@@ -30,22 +26,9 @@ public slots:
     void fitInViewStateChanged();
     void editModeEnabler();
     void saveChanges();
-    void applyEdgeCanny();
-    void setMinValueEdge();
-    void setMinValueEdgeFromLineEdit();
-    void setMaxValueEdge();
-    void setMaxValueEdgeFromLineEdit();
-
-    // Rotation Slots
-
-    void rotateFromLineEdit();
-    void rotateFromDial();
-    void rotateLeftButton();
-    void rotateRightButton();
 
 private:
     OpenCVOperations* openCVOperations;
-    void performEdgeDetectionOperation(OpenCVOperations* operations);
 
     void setTabsEnabled(bool enable);
 
@@ -67,31 +50,9 @@ private:
 
     // OpenCV Operation
     EdgeDetectionWidget* edgeDetectionWidget;
-    //Edge Detection
-    QCheckBox* cannyEdgeCheckBox;
-    QLabel* minValueLabel;
-    QSlider* minEdgeSlider;
-    int minValueOfSlider { 10 };
-    int maxValueOfSlider { 60 };
-    QLineEdit* minValueLineEdit;
-    double minThreshholdEdgeCunny;
-
-    QLabel* maxValueLabel;
-    QSlider* maxEdgeSlider;
-    QLineEdit* maxValueLineEdit;
-    double maxThreshholdEdgeCunny;
 
     // Image Rotation Two Buttons with arrows or circle slider
-    QComboBox* rotationStyleComboB;
-    QLabel* rotationDegreeLabel;
-    QLabel* rotationRadiansLabel;
-    QLineEdit* rotationLineEdit;
-    QPushButton* rotationAcceptFromLineEditButton;
-    QDial* rotationWrappingDial;
-    QWidget* rotationButtonsWidget;
-    QPushButton* rotationButtonLeft;
-    QPushButton* rotationButtonRight;
-    QSpinBox* rotationButtonStepSpinBox;
+    ImageRotationWidget* imageRotationWidget;
 
     // Image Translation Matrix of translation? Dragable Contours of image or corners?
     // Adaptive Threshgholding Slider + Push Button
@@ -110,18 +71,10 @@ private:
     void setupOpenCVTab();
     void setupComputerVisionTab();
 
-    void setupRotationLabels(double angle);
-    void applyRotationToImage(double angle);
-    void chooseRotationStyle(int index);
-
     enum tabNameId {
         Base,
         OpenCV,
         ComputerVision
-    };
-    enum rotationStyle {
-        Dial,
-        Buttons
     };
 };
 

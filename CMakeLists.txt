@@ -31,7 +31,9 @@ add_executable(${PROJECT_NAME}
     src/gui/optionwidget.h
     src/gui/edgedetectionwidget.h
     src/gui/abstractoperationwidget.h
+    src/gui/imagerotationwidget.h
     
+    src/util/dimageutility.h
     # Sources
     src/app/main.cpp
     src/app/openCVOperations.cpp
@@ -44,6 +46,7 @@ add_executable(${PROJECT_NAME}
     src/gui/optionwidget.cpp
     src/gui/edgedetectionwidget.cpp
     src/gui/abstractoperationwidget.cpp
+    src/gui/imagerotationwidget.cpp
 
     # Forms
     src/gui/mainwindow.ui
@@ -51,6 +54,7 @@ add_executable(${PROJECT_NAME}
     src/gui/aboutwidget.ui
     src/gui/optionwidget.ui
     src/gui/edgedetectionwidget.ui
+    src/gui/imagerotationwidget.ui
 
     # Resources
     src/icons/icons.qrc
