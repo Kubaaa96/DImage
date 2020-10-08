@@ -52,6 +52,8 @@ void ImageRotationWidget::connectGUIElements()
 {
     connect(controlComboBox, QOverload<int>::of(&QComboBox::currentIndexChanged),
         [=](int index) { chooseRotationStyle(index); });
+    connect(unitControllComboBox, QOverload<int>::of(&QComboBox::currentIndexChanged),
+        [=](int index) { chooseUnit(index); });
     connect(acceptFromLineEditButton, &QPushButton::pressed, this, &ImageRotationWidget::applyOperation);
     connect(dial, &QDial::valueChanged, this, &ImageRotationWidget::rotateFromDial);
     connect(buttonLeft, &QPushButton::pressed, this, &ImageRotationWidget::rotateLeftButton);
@@ -65,6 +67,11 @@ void ImageRotationWidget::setupMainControl()
     controlComboBox->addItem("Dial");
     controlComboBox->addItem("Buttons");
     HBLayout->addWidget(controlComboBox);
+
+    unitControllComboBox = new QComboBox();
+    unitControllComboBox->addItem("Degrees");
+    unitControllComboBox->addItem("Radians");
+    HBLayout->addWidget(unitControllComboBox);
 
     lineEdit = new QLineEdit();
     lineEdit->setMaximumWidth(lineEditWidth);
@@ -121,28 +128,50 @@ void ImageRotationWidget::setupGUILabels()
     mainVBLayout->addLayout(HBLayout);
 }
 
-void ImageRotationWidget::setupRotationLabels(double angle)
+void ImageRotationWidget::setupRotationValues(double value)
 {
-    degreeLabel->setText(QString::number(angle) + " Degree");
-    radiansLabel->setText(QString::number(qDegreesToRadians(angle)) + " Radians");
+    if (currentUnit == RotationUnits::Degrees) {
+        degrees = value;
+        radians = qDegreesToRadians(value);
+    } else {
+        radians = value;
+        degrees = qRadiansToDegrees(value);
+    }
 }
 
-void ImageRotationWidget::applyRotationToImage(double angle)
+void ImageRotationWidget::setupRotationLabels(double value)
 {
+    setupRotationValues(value);
+    degreeLabel->setText(QString::number(degrees) + " Degree");
+    radiansLabel->setText(QString::number(radians) + " Radians");
+}
+
+void ImageRotationWidget::applyRotationToImage(double value)
+{
+    setupRotationValues(value);
     if (instanceOfImageViewer->hasPhoto()) {
         QImage currentPhoto = instanceOfImageViewer->getPhoto();
         openCVOperations->setOriginalPhoto(currentPhoto);
-        instanceOfImageViewer->setPhoto(openCVOperations->rotateImageQt(angle), Qt::AspectRatioMode::KeepAspectRatio);
+        instanceOfImageViewer->setPhoto(openCVOperations->rotateImageQt(degrees), Qt::AspectRatioMode::KeepAspectRatio);
     }
 }
 
 void ImageRotationWidget::chooseRotationStyle(int index)
 {
-    if (index == DImageUtil::as_integer(rotationStyle::Dial)) {
+    if (index == DImageUtil::as_integer(RotationStyle::Dial)) {
         dial->show();
         buttonsWidget->hide();
     } else {
         dial->hide();
         buttonsWidget->show();
+    }
+}
+
+void ImageRotationWidget::chooseUnit(int index)
+{
+    if (index == DImageUtil::as_integer(RotationUnits::Degrees)) {
+        currentUnit = RotationUnits::Degrees;
+    } else {
+        currentUnit = RotationUnits::Radians;
     }
 }

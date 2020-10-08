@@ -30,6 +30,16 @@ public slots:
     void rotateRightButton();
 
 private:
+    enum class RotationStyle {
+        Dial,
+        Buttons
+    };
+
+    enum class RotationUnits {
+        Degrees,
+        Radians
+    };
+
     void connectGUIElements();
     ImageViewer* instanceOfImageViewer;
 
@@ -38,6 +48,7 @@ private:
     QVBoxLayout* mainVBLayout;
 
     QComboBox* controlComboBox;
+    QComboBox* unitControllComboBox;
     int lineEditWidth { 35 };
     QLineEdit* lineEdit;
     int acceptButtonWidth { 30 };
@@ -61,14 +72,14 @@ private:
     QLabel* radiansLabel;
     void setupGUILabels();
 
-    void setupRotationLabels(double angle);
-    void applyRotationToImage(double angle);
+    double radians = 0.0;
+    double degrees = 0.0;
+    void setupRotationValues(double value);
+    void setupRotationLabels(double value);
+    void applyRotationToImage(double value);
     void chooseRotationStyle(int index);
-
-    enum class rotationStyle {
-        Dial,
-        Buttons
-    };
+    void chooseUnit(int index);
+    RotationUnits currentUnit { RotationUnits::Degrees };
 };
 
 #endif // IMAGEROTATIONWIDGET_H
