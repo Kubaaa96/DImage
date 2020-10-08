@@ -9,6 +9,7 @@
 #include <QFileInfo>
 #include <QGroupBox>
 #include <QHBoxLayout>
+#include <QMessageBox>
 #include <QVBoxLayout>
 #include <QtMath>
 
@@ -140,7 +141,12 @@ void OptionWidget::editModeEnabler()
     if (editModeCheckBox->checkState() == Qt::CheckState::Unchecked) {
         setTabsEnabled(false);
     } else {
-        setTabsEnabled(true);
+        if (instanceOfImageViewer->hasPhoto()) {
+            setTabsEnabled(true);
+        } else {
+            QMessageBox::information(this, "No Photo to edit", "There is no Photo that can be edited", QMessageBox::StandardButton::Close);
+            editModeCheckBox->setCheckState(Qt::CheckState::Unchecked);
+        }
     }
 }
 

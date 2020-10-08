@@ -28,10 +28,6 @@ ImageRotationWidget::~ImageRotationWidget()
 
 void ImageRotationWidget::applyOperation()
 {
-}
-
-void ImageRotationWidget::rotateFromLineEdit()
-{
     auto angleFromRotationLineEdit = lineEdit->text().toDouble();
     setupRotationLabels(angleFromRotationLineEdit);
     applyRotationToImage(angleFromRotationLineEdit);
@@ -56,7 +52,7 @@ void ImageRotationWidget::connectGUIElements()
 {
     connect(controlComboBox, QOverload<int>::of(&QComboBox::currentIndexChanged),
         [=](int index) { chooseRotationStyle(index); });
-    connect(acceptFromLineEditButton, &QPushButton::pressed, this, &ImageRotationWidget::rotateFromLineEdit);
+    connect(acceptFromLineEditButton, &QPushButton::pressed, this, &ImageRotationWidget::applyOperation);
     connect(dial, &QDial::valueChanged, this, &ImageRotationWidget::rotateFromDial);
     connect(buttonLeft, &QPushButton::pressed, this, &ImageRotationWidget::rotateLeftButton);
     connect(buttonRight, &QPushButton::pressed, this, &ImageRotationWidget::rotateRightButton);

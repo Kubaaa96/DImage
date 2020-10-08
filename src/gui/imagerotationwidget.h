@@ -25,7 +25,6 @@ public:
     ~ImageRotationWidget();
 public slots:
     void applyOperation() override;
-    void rotateFromLineEdit();
     void rotateFromDial();
     void rotateLeftButton();
     void rotateRightButton();
