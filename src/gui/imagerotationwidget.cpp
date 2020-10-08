@@ -42,9 +42,7 @@ ImageRotationWidget::~ImageRotationWidget()
 
 void ImageRotationWidget::applyOperation()
 {
-
-    auto angleFromRotationLineEdit = lineEdit->text().toDouble();
-    // auto angleFromRotationLineEdit = getAngleFromLineEdits();
+    auto angleFromRotationLineEdit = getAngleFromLineEdits();
     setupRotationLabels(angleFromRotationLineEdit);
     applyRotationToImage(angleFromRotationLineEdit);
 }
@@ -121,6 +119,7 @@ void ImageRotationWidget::setupMainControl()
     radianRadioButton = new QRadioButton();
     radiansHBLayout->addWidget(radianRadioButton);
     radianLineEdit = new QLineEdit();
+    radianLineEdit->setText("0");
     radiansHBLayout->addWidget(radianLineEdit);
     radiansVBLayout->addWidget(radianLineEditWidget);
 
@@ -129,11 +128,13 @@ void ImageRotationWidget::setupMainControl()
     radianFractionRadioButton = new QRadioButton();
     radiansPIHBLayout->addWidget(radianFractionRadioButton);
     numeratorRadiansLineEdit = new QLineEdit();
+    numeratorRadiansLineEdit->setText("1");
     radiansPIHBLayout->addWidget(numeratorRadiansLineEdit);
     const QChar MathSymbolPi(0x03C0);
     auto piLabel = new QLabel(QString(MathSymbolPi) + "/");
     radiansPIHBLayout->addWidget(piLabel);
     denominatorRadiansLineEdit = new QLineEdit();
+    denominatorRadiansLineEdit->setText("1");
     radiansPIHBLayout->addWidget(denominatorRadiansLineEdit);
     radiansVBLayout->addWidget(radiansPILineEdits);
     lineEditsHBLayout->addWidget(radiansLineEdits);
@@ -195,7 +196,19 @@ void ImageRotationWidget::setupGUILabels()
 
 double ImageRotationWidget::getAngleFromLineEdits()
 {
-    return 0.0;
+    if (currentUnit == RotationUnits::Degrees) {
+        return lineEdit->text().toDouble();
+    } else {
+        if (radianRadioButton->isChecked()) {
+            return radianLineEdit->text().toDouble();
+        } else {
+            double numeratorValue = numeratorRadiansLineEdit->text().toDouble();
+            double denumeratorValue = denominatorRadiansLineEdit->text().toDouble();
+            double degreesUsingPi = (numeratorValue * 180.0) / denumeratorValue;
+            // Changing back to radians because current unit is set to radians
+            return qDegreesToRadians(degreesUsingPi);
+        }
+    }
 }
 
 void ImageRotationWidget::dissableFractialradianLineEdits()
