@@ -30,6 +30,8 @@ public slots:
     void rotateFromDial();
     void rotateLeftButton();
     void rotateRightButton();
+    void radiansRadioButton();
+    void radiansFractialRadioButton();
 
 private:
     enum class RotationStyle {
@@ -52,9 +54,10 @@ private:
     QComboBox* controlComboBox;
     QComboBox* unitControllComboBox;
 
-    int lineEditWidth { 35 };
+    int lineEditDegreeWidth { 50 };
     QLineEdit* lineEdit;
 
+    int maxRadiansLineEdits { 90 };
     QWidget* radiansLineEdits;
     QWidget* radianLineEditWidget;
     QRadioButton* radianRadioButton;
@@ -89,6 +92,7 @@ private:
     double radians = 0.0;
     double degrees = 0.0;
     double getAngleFromLineEdits(); // returning degrees already
+    void dissableFractialradianLineEdits();
     void setupRotationValues(double value);
     void setupRotationLabels(double value);
     void applyRotationToImage(double value);

@@ -64,6 +64,19 @@ void ImageRotationWidget::rotateRightButton()
     applyRotationToImage(buttonStepSpinBox->value());
 }
 
+void ImageRotationWidget::radiansRadioButton()
+{
+    dissableFractialradianLineEdits();
+}
+void ImageRotationWidget::radiansFractialRadioButton()
+{
+    radianLineEdit->setEnabled(false);
+    radianRadioButton->setChecked(false);
+    if (!numeratorRadiansLineEdit->isEnabled() && !denominatorRadiansLineEdit->isEnabled()) {
+        numeratorRadiansLineEdit->setEnabled(true);
+        denominatorRadiansLineEdit->setEnabled(true);
+    }
+}
 void ImageRotationWidget::connectGUIElements()
 {
     connect(controlComboBox, QOverload<int>::of(&QComboBox::currentIndexChanged),
@@ -74,6 +87,8 @@ void ImageRotationWidget::connectGUIElements()
     connect(dial, &QDial::valueChanged, this, &ImageRotationWidget::rotateFromDial);
     connect(buttonLeft, &QPushButton::pressed, this, &ImageRotationWidget::rotateLeftButton);
     connect(buttonRight, &QPushButton::pressed, this, &ImageRotationWidget::rotateRightButton);
+    connect(radianRadioButton, &QRadioButton::clicked, this, &ImageRotationWidget::radiansRadioButton);
+    connect(radianFractionRadioButton, &QRadioButton::clicked, this, &ImageRotationWidget::radiansFractialRadioButton);
 }
 
 void ImageRotationWidget::setupMainControl()
@@ -94,7 +109,7 @@ void ImageRotationWidget::setupMainControl()
     auto lineEditsHBLayout = new QHBoxLayout();
 
     lineEdit = new QLineEdit();
-    lineEdit->setMaximumWidth(lineEditWidth);
+    lineEdit->setMaximumWidth(lineEditDegreeWidth);
     lineEdit->setText("0");
     lineEditsHBLayout->addWidget(lineEdit);
 
@@ -122,7 +137,10 @@ void ImageRotationWidget::setupMainControl()
     radiansPIHBLayout->addWidget(denominatorRadiansLineEdit);
     radiansVBLayout->addWidget(radiansPILineEdits);
     lineEditsHBLayout->addWidget(radiansLineEdits);
-    lineEdit->hide();
+    radiansLineEdits->setMaximumHeight(maxRadiansLineEdits);
+    radiansLineEdits->hide();
+    dissableFractialradianLineEdits();
+    radianRadioButton->setChecked(true);
 
     acceptFromLineEditButton = new QPushButton(QIcon(":/mainWindow/acceptIcon.ico"), "");
     acceptFromLineEditButton->setMaximumWidth(acceptButtonWidth);
@@ -180,6 +198,17 @@ double ImageRotationWidget::getAngleFromLineEdits()
     return 0.0;
 }
 
+void ImageRotationWidget::dissableFractialradianLineEdits()
+{
+    numeratorRadiansLineEdit->setEnabled(false);
+    denominatorRadiansLineEdit->setEnabled(false);
+    radianFractionRadioButton->setChecked(false);
+    if (!radianLineEdit->isEnabled()) {
+        radianLineEdit->setEnabled(true);
+        radianRadioButton->setChecked(true);
+    }
+}
+
 void ImageRotationWidget::setupRotationValues(double value)
 {
     if (currentUnit == RotationUnits::Degrees) {
@@ -223,7 +252,11 @@ void ImageRotationWidget::chooseUnit(int index)
 {
     if (index == DImageUtil::as_integer(RotationUnits::Degrees)) {
         currentUnit = RotationUnits::Degrees;
+        lineEdit->show();
+        radiansLineEdits->hide();
     } else {
         currentUnit = RotationUnits::Radians;
+        radiansLineEdits->show();
+        lineEdit->hide();
     }
 }
