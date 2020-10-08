@@ -24,11 +24,27 @@ ImageRotationWidget::ImageRotationWidget(ImageViewer* imageViewer, QWidget* pare
 ImageRotationWidget::~ImageRotationWidget()
 {
     delete ui;
+    delete radiansLabel;
+    delete degreeLabel;
+    delete buttonStepSpinBox;
+    delete buttonRight;
+    delete buttonLeft;
+    delete buttonsWidget;
+    delete dial;
+    delete acceptFromLineEditButton;
+    delete denominatorRadiansLineEdit;
+    delete numeratorRadiansLineEdit;
+    delete radianFractionRadioButton;
+    delete radianLineEdit;
+    delete radianRadioButton;
+    delete lineEdit;
 }
 
 void ImageRotationWidget::applyOperation()
 {
+
     auto angleFromRotationLineEdit = lineEdit->text().toDouble();
+    // auto angleFromRotationLineEdit = getAngleFromLineEdits();
     setupRotationLabels(angleFromRotationLineEdit);
     applyRotationToImage(angleFromRotationLineEdit);
 }
@@ -62,26 +78,57 @@ void ImageRotationWidget::connectGUIElements()
 
 void ImageRotationWidget::setupMainControl()
 {
-    auto HBLayout = new QHBoxLayout();
+    auto controlVBlayout = new QVBoxLayout();
+    auto comboBoxesHBLayout = new QHBoxLayout();
     controlComboBox = new QComboBox();
     controlComboBox->addItem("Dial");
     controlComboBox->addItem("Buttons");
-    HBLayout->addWidget(controlComboBox);
+    comboBoxesHBLayout->addWidget(controlComboBox);
 
     unitControllComboBox = new QComboBox();
     unitControllComboBox->addItem("Degrees");
     unitControllComboBox->addItem("Radians");
-    HBLayout->addWidget(unitControllComboBox);
+    comboBoxesHBLayout->addWidget(unitControllComboBox);
+    controlVBlayout->addLayout(comboBoxesHBLayout);
+
+    auto lineEditsHBLayout = new QHBoxLayout();
 
     lineEdit = new QLineEdit();
     lineEdit->setMaximumWidth(lineEditWidth);
     lineEdit->setText("0");
-    HBLayout->addWidget(lineEdit);
+    lineEditsHBLayout->addWidget(lineEdit);
+
+    radiansLineEdits = new QWidget();
+    auto radiansVBLayout = new QVBoxLayout(radiansLineEdits);
+
+    radianLineEditWidget = new QWidget();
+    auto radiansHBLayout = new QHBoxLayout(radianLineEditWidget);
+    radianRadioButton = new QRadioButton();
+    radiansHBLayout->addWidget(radianRadioButton);
+    radianLineEdit = new QLineEdit();
+    radiansHBLayout->addWidget(radianLineEdit);
+    radiansVBLayout->addWidget(radianLineEditWidget);
+
+    radiansPILineEdits = new QWidget();
+    auto radiansPIHBLayout = new QHBoxLayout(radiansPILineEdits);
+    radianFractionRadioButton = new QRadioButton();
+    radiansPIHBLayout->addWidget(radianFractionRadioButton);
+    numeratorRadiansLineEdit = new QLineEdit();
+    radiansPIHBLayout->addWidget(numeratorRadiansLineEdit);
+    const QChar MathSymbolPi(0x03C0);
+    auto piLabel = new QLabel(QString(MathSymbolPi) + "/");
+    radiansPIHBLayout->addWidget(piLabel);
+    denominatorRadiansLineEdit = new QLineEdit();
+    radiansPIHBLayout->addWidget(denominatorRadiansLineEdit);
+    radiansVBLayout->addWidget(radiansPILineEdits);
+    lineEditsHBLayout->addWidget(radiansLineEdits);
+    lineEdit->hide();
 
     acceptFromLineEditButton = new QPushButton(QIcon(":/mainWindow/acceptIcon.ico"), "");
     acceptFromLineEditButton->setMaximumWidth(acceptButtonWidth);
-    HBLayout->addWidget(acceptFromLineEditButton);
-    mainVBLayout->addLayout(HBLayout);
+    lineEditsHBLayout->addWidget(acceptFromLineEditButton);
+    controlVBlayout->addLayout(lineEditsHBLayout);
+    mainVBLayout->addLayout(controlVBlayout);
 }
 
 void ImageRotationWidget::setupDial()
@@ -126,6 +173,11 @@ void ImageRotationWidget::setupGUILabels()
     radiansLabel = new QLabel("0 Radians");
     HBLayout->addWidget(radiansLabel);
     mainVBLayout->addLayout(HBLayout);
+}
+
+double ImageRotationWidget::getAngleFromLineEdits()
+{
+    return 0.0;
 }
 
 void ImageRotationWidget::setupRotationValues(double value)

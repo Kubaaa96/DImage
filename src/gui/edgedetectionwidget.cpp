@@ -22,6 +22,13 @@ EdgeDetectionWidget::EdgeDetectionWidget(ImageViewer* imageViewer, QWidget* pare
 EdgeDetectionWidget::~EdgeDetectionWidget()
 {
     delete ui;
+    delete maxLineEdit;
+    delete maxSlider;
+    delete maxValueLabel;
+    delete minLineEdit;
+    delete minSlider;
+    delete minValueLabel;
+    delete controlCheckBox;
 }
 
 void EdgeDetectionWidget::applyOperation()

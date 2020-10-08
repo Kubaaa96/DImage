@@ -47,6 +47,21 @@ OptionWidget::OptionWidget(ImageViewer* imageViewer, QWidget* parent)
 OptionWidget::~OptionWidget()
 {
     delete ui;
+    delete pathToImage;
+    delete sizeOfImage;
+    delete nameOfImage;
+    delete imageRotationWidget;
+    delete edgeDetectionWidget;
+    delete buttonSaveChangesComputerVisionTab;
+    delete buttonSaveChangesOpenCVTab;
+    delete buttonSaveChangesBasicTab;
+    delete buttonOriginalImage;
+    delete editModeCheckBox;
+    delete fitInViewCheckBox;
+    delete computerVisionTab;
+    delete openCVTab;
+    delete baseTab;
+    delete openCVOperations;
 }
 
 void OptionWidget::setupBaseTab()

@@ -4,12 +4,14 @@
 #include "abstractoperationwidget.h"
 #include "imageviewer.h"
 
+#include <QCheckBox>
 #include <QComboBox>
 #include <QDial>
 #include <QGroupBox>
 #include <QLabel>
 #include <QLineEdit>
 #include <QPushButton>
+#include <QRadioButton>
 #include <QSpinBox>
 #include <QVBoxLayout>
 
@@ -49,8 +51,20 @@ private:
 
     QComboBox* controlComboBox;
     QComboBox* unitControllComboBox;
+
     int lineEditWidth { 35 };
     QLineEdit* lineEdit;
+
+    QWidget* radiansLineEdits;
+    QWidget* radianLineEditWidget;
+    QRadioButton* radianRadioButton;
+    QLineEdit* radianLineEdit;
+
+    QWidget* radiansPILineEdits;
+    QRadioButton* radianFractionRadioButton;
+    QLineEdit* numeratorRadiansLineEdit;
+    QLineEdit* denominatorRadiansLineEdit;
+
     int acceptButtonWidth { 30 };
     QPushButton* acceptFromLineEditButton;
     void setupMainControl();
@@ -74,6 +88,7 @@ private:
 
     double radians = 0.0;
     double degrees = 0.0;
+    double getAngleFromLineEdits(); // returning degrees already
     void setupRotationValues(double value);
     void setupRotationLabels(double value);
     void applyRotationToImage(double value);
