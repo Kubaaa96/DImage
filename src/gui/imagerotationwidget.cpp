@@ -142,7 +142,7 @@ void ImageRotationWidget::applyRotationToImage(double angle)
 
 void ImageRotationWidget::chooseRotationStyle(int index)
 {
-    if (index == as_integer(rotationStyle::Dial)) {
+    if (index == DImageUtil::as_integer(rotationStyle::Dial)) {
         dial->show();
         buttonsWidget->hide();
     } else {
