@@ -100,7 +100,7 @@ void MainWindow::hideOptionWidget()
 {
     if (optionWidget->isHidden()) {
         optionWidget->setHidden(false);
-        buttonOptionsHide->setIcon(QIcon(":/mainWindow/ArrowLeft.png"));
+        buttonOptionsHide->setIcon(QIcon(":/mainWindow/arrowLeft.png"));
     } else {
         optionWidget->setHidden(true);
         buttonOptionsHide->setIcon(QIcon(":/mainWindow/arrowRight.png"));
@@ -113,7 +113,7 @@ void MainWindow::hideImageLayout()
         buttonImageViewHide->setIcon(QIcon(":/mainWindow/arrowRight.png"));
         containerWidgetImages->setHidden(false);
     } else {
-        buttonImageViewHide->setIcon(QIcon(":/mainWindow/ArrowLeft.png"));
+        buttonImageViewHide->setIcon(QIcon(":/mainWindow/arrowLeft.png"));
         containerWidgetImages->setHidden(true);
     }
 }

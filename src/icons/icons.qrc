@@ -1,9 +1,9 @@
 <RCC>
     <qresource prefix="/mainWindow">
         <file>arrowRight.png</file>
-        <file>ArrowLeft.png</file>
         <file>acceptIcon.ico</file>
         <file>rotatingLeftIcon.png</file>
         <file>rotatingRightIcon.png</file>
+        <file>arrowLeft.png</file>
     </qresource>
 </RCC>
