@@ -43,6 +43,7 @@ private:
     QCheckBox* fitInViewCheckBox;
     QCheckBox* editModeCheckBox;
     QPushButton* buttonOriginalImage;
+
     const int maximumSizeOfSaveButton { 30 };
     QPushButton* buttonSaveChangesBasicTab;
     QPushButton* buttonSaveChangesOpenCVTab;
@@ -51,7 +52,6 @@ private:
     // OpenCV Operation
     EdgeDetectionWidget* edgeDetectionWidget;
 
-    // Image Rotation Two Buttons with arrows or circle slider
     ImageRotationWidget* imageRotationWidget;
 
     // Image Translation Matrix of translation? Dragable Contours of image or corners?

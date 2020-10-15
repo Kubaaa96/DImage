@@ -43,9 +43,8 @@ void MainWindow::creatingButtonToHideOptions()
 {
     buttonOptionsHide = new QPushButton();
     buttonOptionsHide->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Preferred);
-    buttonOptionsHide->setMaximumWidth(maximumWidthOfHidingButtons); // TODO Change Magic Numbers
-    //printf(icon.isNull() ? "true" : "false");
-    buttonOptionsHide->setIcon(QIcon(":/mainWindow/ArrowLeft.png"));
+    buttonOptionsHide->setMaximumWidth(maximumWidthOfHidingButtons);
+    buttonOptionsHide->setIcon(QIcon(":/mainWindow/arrowLeft.png"));
 }
 
 void MainWindow::creatingButtonToHideContainer()
@@ -53,14 +52,14 @@ void MainWindow::creatingButtonToHideContainer()
     buttonImageViewHide = new QPushButton();
     buttonImageViewHide->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Preferred);
 
-    buttonImageViewHide->setMaximumWidth(maximumWidthOfHidingButtons); // TODO Change Magic Numbers
+    buttonImageViewHide->setMaximumWidth(maximumWidthOfHidingButtons);
     buttonImageViewHide->setIcon(QIcon(":/mainWindow/arrowRight.png"));
 }
 
 void MainWindow::creatingContainerForImages()
 {
     containerWidgetImages = new ImageContainer(imageViewer, nullptr);
-    containerWidgetImages->setMaximumWidth(maximumWidthOfSidesWidgets); // TODO Change Magic Numbers
+    containerWidgetImages->setMaximumWidth(maximumWidthOfSidesWidgets);
 }
 
 void MainWindow::settingUpMainLayout()
@@ -155,14 +154,11 @@ void MainWindow::addItemToContainerAndSetPhotoToViewer(QImage& image, QString pa
 
 void MainWindow::saveFile()
 {
-    // Think about Global utility function
     QString fileName = QFileDialog::getSaveFileName(this, tr("SaveFile"), "D:", tr("Image Files (*.png *.jpg *.bmp)"));
     QImageWriter writer(fileName);
     if (!writer.write(imageViewer->getPhoto())) {
         QMessageBox::information(this, QGuiApplication::applicationDisplayName(),
-            tr("Cannot write %1: %2")
-                .arg(QDir::toNativeSeparators(fileName)),
-            writer.errorString());
+            tr("Image was not saved"));
         return;
     }
 }

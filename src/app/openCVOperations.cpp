@@ -1,4 +1,5 @@
 #include "openCVOperations.h"
+
 OpenCVOperations::OpenCVOperations(QImage imageToEdit)
     : originalPhoto(imageToEdit)
     , originalPhotoFormat(imageToEdit.format())
@@ -18,7 +19,7 @@ QImage OpenCVOperations::cannyEdgeDetectionQt(double minThreshhold, double maxTh
     return toImage(cannyEdgeDetection(minThreshhold, maxThreshhold), QImage::Format_Grayscale8);
 }
 
-// TODO refactor
+// TODO Find better way to rotate image without making it visually smaller
 cv::Mat OpenCVOperations::rotateImage(double angle)
 {
     photoToEdit = toMat(originalPhoto, CV_8UC4);
@@ -36,7 +37,6 @@ cv::Mat OpenCVOperations::rotateImage(double angle)
     cv::Mat rotationMatrix = cv::getRotationMatrix2D(center, angle, 1);
     cv::warpAffine(resizedImage, resizedImage, rotationMatrix, resizedImage.size());
     cv::cvtColor(resizedImage, resizedImage, cv::COLOR_RGBA2RGB);
-    //qInfo() << QString::fromStdString(getImageType(resizedImage.type()));
     return resizedImage;
 }
 
