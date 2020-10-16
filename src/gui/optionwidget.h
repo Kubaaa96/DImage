@@ -71,6 +71,8 @@ private:
     void setupOpenCVTab();
     void setupComputerVisionTab();
 
+    bool isCheckBoxChecked(QCheckBox* checkBox);
+
     enum tabNameId {
         Base,
         OpenCV,

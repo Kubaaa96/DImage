@@ -19,16 +19,16 @@ OptionWidget::OptionWidget(ImageViewer* imageViewer, QWidget* parent)
     : instanceOfImageViewer(imageViewer)
     , QTabWidget(parent)
     , ui(new Ui::OptionWidget)
+    , baseTab(new QWidget())
+    , openCVTab(new QWidget())
+    , computerVisionTab(new QWidget())
 {
     ui->setupUi(this);
 
-    baseTab = new QWidget();
     setupBaseTab();
 
-    openCVTab = new QWidget();
     setupOpenCVTab();
 
-    computerVisionTab = new QWidget();
     setupComputerVisionTab();
 
     addTab(baseTab, "Base Options");
@@ -140,20 +140,20 @@ void OptionWidget::updateBaseInformation(QString path)
 void OptionWidget::fitInViewStateChanged()
 {
     if (instanceOfImageViewer->hasPhoto()) {
-        if (fitInViewCheckBox->checkState() == Qt::CheckState::Checked) {
+        if (isCheckBoxChecked(fitInViewCheckBox)) {
             instanceOfImageViewer->fitInView(instanceOfImageViewer->getPhotoAsGraphicsPixmapItem());
         } else {
             // Original resolution or diffrent button to do that?
             instanceOfImageViewer->setPhoto(instanceOfImageViewer->getPhoto(), Qt::AspectRatioMode::KeepAspectRatio);
         }
     } else {
-        qInfo() << "No photo";
+        QMessageBox::information(this, "No Photo to edit", "There is no Photo in Image Viewer", QMessageBox::StandardButton::Close);
     }
 }
 
 void OptionWidget::editModeEnabler()
 {
-    if (editModeCheckBox->checkState() == Qt::CheckState::Unchecked) {
+    if (!isCheckBoxChecked(editModeCheckBox)) {
         setTabsEnabled(false);
     } else {
         if (instanceOfImageViewer->hasPhoto()) {
@@ -174,4 +174,9 @@ void OptionWidget::setTabsEnabled(bool enable)
 {
     setTabEnabled(tabNameId::OpenCV, enable);
     setTabEnabled(tabNameId::ComputerVision, enable);
+}
+
+bool OptionWidget::isCheckBoxChecked(QCheckBox* checkBox)
+{
+    return checkBox->checkState() == Qt::CheckState::Checked;
 }
